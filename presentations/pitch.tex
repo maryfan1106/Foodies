@@ -1,0 +1,71 @@
+\documentclass{beamer}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true}
+
+\usetheme{EastLansing}
+\useinnertheme{circles}
+
+\title{Foodies}
+\subtitle{Always know where to go to eat}
+\author{Jeffrey Lin}
+\institute{CSCI 49900 / 03}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Scenarios}
+  A group of friends are hungry, but can't decide on where to go. Maybe\dots \pause%
+
+  \begin{itemize}
+    \item you're on a tight budget. \pause%
+    \item it's peak dinner hour, and most places can't fit your group of 12. \pause%
+    \item it's late, and some restaurants are closed. \pause%
+    \item you don't want to take three different trains to get sushi. \pause%
+    \item you've already had enough sushi this month.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Foodies for simple food recommendations}
+  Foodies will be a phone app for suggesting places that: \pause%
+  \begin{itemize}
+    \item fit within a given budget \pause%
+    \item are currently open \pause%
+    \item are relatively close to the user's location \pause%
+    \item based off of individual or group likes and dislikes \pause%
+      \begin{itemize}
+        \item Machine learning
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Technologies and Skillsets}
+  \begin{columns}
+    \column{0.5\textwidth}
+    Database:
+    \begin{itemize}
+      \item users and their friend groups
+      \item likes/dislikes (temporary/permanent)
+      \item recently visited restaurants
+    \end{itemize} \pause%
+
+    App:
+    \begin{itemize}
+      \item iOS / Android
+      \item location detection
+    \end{itemize} \pause%
+
+    \column{0.5\textwidth}
+    APIs and Data Sources:
+    \begin{itemize}
+      \item \href{https://developers.google.com/places/web-service/search#FindPlaceRequests}{Google Places API} for finding locations with criteria
+      \item scrape Yelp business pages for open hours when not available on Places
+      \item Misc: \href{https://www.yelp.com/developers/documentation/v3/all_category_list}{Yelp list of categories}
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\end{document}
