@@ -1,2 +1,5 @@
 Mary Fan
 I'm interested in machine learning and artificial intelligence and its applications in the healthcare field.
+
+Arman Berek
+I'm interested in data science. In my free time I like to play basketball.
