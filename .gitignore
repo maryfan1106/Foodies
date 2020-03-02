@@ -1,3 +1,5 @@
 # data files
 *.sqlite3
 *.tsv
+
+.idea/
