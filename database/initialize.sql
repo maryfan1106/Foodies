@@ -88,6 +88,33 @@ BEGIN TRANSACTION;
     INNER JOIN categories AS cat ON ins.[CUISINE DESCRIPTION] = cat.description
     WHERE ins.[GRADE] IN ('A', 'B');
 
+    -- sources table
+    CREATE TABLE sources (
+        sid INTEGER PRIMARY KEY NOT NULL,
+        name TEXT NOT NULL
+    );
+
+    INSERT INTO sources (sid, name)
+    VALUES (1, 'Google Places'), (2, 'Yelp');
+
+    -- prices table
+    CREATE TABLE prices (
+        camis INTEGER NOT NULL REFERENCES restaurants(camis),
+        source INTEGER NOT NULL REFERENCES sources(sid),
+        price INTEGER,
+        UNIQUE(camis, source)
+    );
+
+    -- hours of operation table
+    CREATE TABLE openhours (
+        camis INTEGER NOT NULL REFERENCES restaurants(camis),
+        source INTEGER NOT NULL REFERENCES sources(sid),
+        dayofweek INTEGER, -- 0 (sunday) to 6 (saturday)
+        open INTEGER, -- 0930 will be truncated to 930, which is okay
+        close INTEGER,
+        UNIQUE(camis, source)
+    );
+
 COMMIT TRANSACTION;
 
 -- cleanup
