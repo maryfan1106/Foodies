@@ -54,7 +54,13 @@ BEGIN TRANSACTION;
 
     INSERT INTO categories (description)
     SELECT DISTINCT [CUISINE DESCRIPTION]
-    FROM inspections;
+    FROM inspections AS ins
+    WHERE ins.[CUISINE DESCRIPTION] NOT IN (
+        'Not Listed/Not Applicable',
+        'Fruits/Vegetables',
+        'Nuts/Confectionary',
+        'Bottled beverages, including water, sodas, juices, etc.'
+    );
 
     -- restaurants table
     CREATE TABLE restaurants (
