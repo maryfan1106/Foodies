@@ -85,7 +85,8 @@ BEGIN TRANSACTION;
         ins.[Longitude],
         cat.cid
     FROM inspections AS ins
-    INNER JOIN categories AS cat ON ins.[CUISINE DESCRIPTION] = cat.description;
+    INNER JOIN categories AS cat ON ins.[CUISINE DESCRIPTION] = cat.description
+    WHERE ins.[GRADE] IN ('A', 'B');
 
 COMMIT TRANSACTION;
 
