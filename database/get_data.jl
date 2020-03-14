@@ -1,6 +1,6 @@
 #!/usr/bin/env julia
 
-# required environement variables: YELP_TOKEN
+# required environement variables: YELP_TOKEN, GPLACES_TOKEN
 
 module GetData
 
@@ -118,12 +118,56 @@ function process_yelp(dbc)
     end
 end
 
+function process_gplaces_single(dbc, query, row)
+    (camis, name, address, phone, lat, long) = row
+
+    res = post("https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
+               query = merge(query, Dict(:input => name,
+                                         :inputtype => "textquery",
+                                         :locationbias => "point:$lat,$long",
+                                         :fields => "place_id")))
+
+    candidates = JSON3.read(res.body).candidates
+    length(candidates) < 1 && return
+    place_id = candidates[1].place_id
+
+    res = post("https://maps.googleapis.com/maps/api/place/details/json";
+               query = merge(query, Dict(:place_id => place_id,
+                                         :fields => "opening_hours/periods,price_level")))
+
+    data = JSON3.read(res.body).result
+    @info "GPLACES" name
+
+    try
+        periods = data.opening_hours.periods
+        for (close, open) in periods
+            put!(dbc.ch, Exec(dbc.hours_stmt, (camis = camis, source = 1, dayofweek =
+                                               open[2].day, open = open[2].time, close =
+                                               close[2].time)))
+        end
+    catch BoundsError # no opening hours
+    end
+
+    price = get(data, "price_level", "NULL")
+    insert_price(dbc, camis, price, 1)
+end
+
+function process_gplaces(dbc)
+    missing_rows = get_missing_rows(dbc, 1) |> rowtable
+    query = Dict(:key => ENV["GPLACES_TOKEN"])
+
+    for rows in partition(missing_rows, 4)
+        wait.(Threads.@spawn process_gplaces_single(dbc, query, row) for row in rows)
+    end
+end
+
 end
 
 
 function main()
     db = GetData.DBConnection("foodies.sqlite3")
     GetData.process_yelp(db)
+    GetData.process_gplaces(db)
 end
 
 isinteractive() || main()
