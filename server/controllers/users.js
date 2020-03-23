@@ -9,3 +9,8 @@ export function createUser(req, res) {
     })
     .catch((err) => res.status(400).json({ err }));
 }
+
+export function logIn(req, res) {
+  const token = getToken(req.user);
+  res.json({ token: token });
+}
