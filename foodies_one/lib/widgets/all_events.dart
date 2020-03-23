@@ -13,6 +13,7 @@ class AllEvents extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             final Event event = allEvents[index];
             return GestureDetector(
+              //TODO: pass event using route
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(
                       builder: (_) => EventScreen(event: event,)
@@ -35,7 +36,7 @@ class AllEvents extends StatelessWidget {
                         Text(
                             event.name,
                             style: TextStyle(
-                              color: Colors.grey,
+                              color: Colors.white,
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -43,7 +44,7 @@ class AllEvents extends StatelessWidget {
                         Text(
                           'Hosted by: ' + event.host.name,
                           style: TextStyle(
-                            color: Colors.blueGrey,
+                            color: Colors.white,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
                           ),

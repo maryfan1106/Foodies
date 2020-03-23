@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodiesone/models/event_model.dart';
+import 'package:foodiesone/widgets/event_attendees.dart';
+import 'package:foodiesone/widgets/event_restaurants.dart';
 
 class EventScreen extends StatefulWidget {
   final Event event;
@@ -28,6 +30,12 @@ class _EventScreenState extends State<EventScreen> {
             color: Colors.white,
             onPressed: () {},
           ),
+        ],
+      ),
+      body: Column(
+        children: <Widget>[
+          EventAttendees(),
+          EventRestaurants(),
         ],
       ),
     );

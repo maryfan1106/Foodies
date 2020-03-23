@@ -150,6 +150,9 @@ class CreateEventFormState extends State<CreateEventForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            decoration: InputDecoration(
+                labelText: 'Event Name'
+            ),
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter event name';

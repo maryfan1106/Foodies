@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodiesone/pages/create_event_screen.dart';
 import 'package:foodiesone/pages/home_screen.dart';
+import 'package:foodiesone/pages/profile_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,10 +13,15 @@ class MyApp extends StatelessWidget {
       title: 'Foodies',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.deepOrange[100],
-        accentColor: Colors.orange[100],
+        primaryColor: Colors.lightBlue,
+        accentColor: Colors.white,
       ),
-      home: HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/profileScreen': (context) => ProfileScreen(),
+        '/createEventScreen': (context) => CreateEventScreen(),
+      },
     );
   }
 }

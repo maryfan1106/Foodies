@@ -106,3 +106,6 @@ final Event eventFive = Event(
 List<User> allUsers = [currentUser, userOne, userTwo, userThree, userFour, userFive];
 List<Restaurant> allRestaurants = [restaurantOne, restaurantTwo, restaurantThree, restaurantFour, restaurantFive];
 List<Event> allEvents = [eventOne, eventTwo, eventThree, eventFour, eventFive];
+List<String> allCategories = [
+  'Burgers','Pizza','Sushi','Ham','Nuts','Ramen','Halal','Curry','Korean','American','Chinese'
+];
