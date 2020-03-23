@@ -31,3 +31,20 @@ Emails must be unique. All fields are mandatory.
 | --------------- | -------------------------------------------- |
 | 201 Created     | User successfully created. `{ token : JWT }` |
 | 400 Bad Request | User not created. `{ err }` (content varies) |
+
+### /users/login
+
+#### POST
+
+All fields are required. One of the following (yes the token also logs you in):
+
+```
+{ email, password }
+{ token }
+```
+
+| Response         | Description                       |
+| ---------------- | --------------------------------- |
+| 200 OK           | User logged in. `{ token : JWT }` |
+| 400 Bad Request  | Missing a required field.         |
+| 401 Unauthorized | Incorrect credentials.            |
