@@ -23,7 +23,10 @@ export function insertUser(user) {
       SQL`INSERT INTO users (name, email, pwhash)
           VALUES (${name}, ${email}, ${pwhash})`
     )
-    .then(() =>
-      db.get(SQL`SELECT uid, email FROM users WHERE email = ${email}`)
-    );
+    .then(() => getUser(email));
+}
+
+export function getUser(email) {
+  return db.get(SQL`SELECT uid, email, pwhash
+                    FROM users WHERE email = ${email}`);
 }
