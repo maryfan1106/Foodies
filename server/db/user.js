@@ -18,7 +18,12 @@ export async function insertUser(user) {
         VALUES      (${name}, ${email}, ${pwhash})`
   );
 
-  return db.get(SQL`SELECT uid, email
+  return getUser(email);
+}
+
+export async function getUser(email) {
+  const db = await getDbInstance();
+  return db.get(SQL`SELECT uid, email, pwhash
                     FROM   users
                     WHERE  email = ${email}`);
 }
