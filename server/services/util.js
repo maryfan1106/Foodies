@@ -10,6 +10,12 @@ export function hashPassword(plaintext) {
   );
 }
 
+export function comparePassword(hashed, candidate) {
+  const hashedbuf = Buffer.from(hashed, "utf8");
+  const candidatebuf = Buffer.from(candidate, "utf8");
+  return sodiumapi.crypto_pwhash_str_verify(hashedbuf, candidatebuf);
+}
+
 export function getToken(user) {
   const { uid, email } = user;
   return jwt.sign({ uid, email }, process.env.AUTH_SECRET);
