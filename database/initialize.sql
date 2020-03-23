@@ -115,6 +115,38 @@ BEGIN TRANSACTION;
         UNIQUE(camis, source, dayofweek, open) -- multiple openings per day okay
     );
 
+    -- users table
+    CREATE TABLE users (
+        uid INTEGER PRIMARY KEY NOT NULL,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        pwhash TEXT NOT NULL
+    );
+
+    -- events table
+    CREATE TABLE events (
+        eid INTEGER PRIMARY KEY NOT NULL,
+        name TEXT NOT NULL,
+        timestamp TEXT, -- sqlite doesn't have datetime; 2020-01-31T13:49:00
+        budget INTEGER
+    );
+
+    -- attendees table maps users to events
+    CREATE TABLE attendees (
+        uid INTEGER NOT NULL REFERENCES users(uid),
+        eid INTEGER NOT NULL REFERENCES events(eid),
+        role INTEGER NOT NULL, -- 0 (host), 1 (attendee)
+        UNIQUE(uid, eid)
+    );
+
+    -- preferences table contains likes and dislikes
+    CREATE TABLE preferences (
+        uid INTEGER NOT NULL REFERENCES users(uid),
+        cid INTEGER NOT NULL REFERENCES categories(cid),
+        bias INTEGER NOT NULL,
+        UNIQUE(uid, cid)
+    );
+
 COMMIT TRANSACTION;
 
 -- cleanup
