@@ -1,4 +1,4 @@
-import { insertUser } from "../db";
+import { insertUser, getUser } from "../db";
 import { getToken } from "../services/util";
 
 export function createUser(req, res) {
@@ -8,6 +8,17 @@ export function createUser(req, res) {
       res.status(201).json({ token: token });
     })
     .catch((err) => res.status(400).json({ err }));
+}
+
+export function getUserByEmail(req, res) {
+  getUser(req.params.email)
+    .then((user) => {
+      const { name, email } = user;
+      res.status(302).json({ name, email });
+    })
+    .catch((err) =>
+      res.status(404).json({ error: "Email not registered", err })
+    );
 }
 
 export function logIn(req, res) {
