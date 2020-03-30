@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { createUser, logIn } from "./controllers/users";
+import { createUser, getUserByEmail, logIn } from "./controllers/users";
 import { requireLogin } from "./services/permit";
 
 const router = Router();
 
 router.route("/users").post(createUser);
+
+router.route("/users/:email").get(requireLogin, getUserByEmail);
 
 router.route("/users/login").post(requireLogin, logIn);
 
