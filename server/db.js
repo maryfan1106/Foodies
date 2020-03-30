@@ -30,3 +30,10 @@ export function getUser(email) {
   return db.get(SQL`SELECT uid, name, email, pwhash
                     FROM users WHERE email = ${email}`);
 }
+
+export function getBiases(uid) {
+  return db.all(SQL`SELECT    c.cid, c.description, pref.bias
+                    FROM      categories  AS c
+                    LEFT JOIN preferences AS pref
+                      ON c.cid = pref.cid AND pref.uid = ${uid}`);
+}

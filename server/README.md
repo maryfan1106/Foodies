@@ -59,3 +59,13 @@ Get a user's name given their email address.
 | ------------- | --------------------------------------------------- |
 | 302 Found     | User exists and data is returned: `{ name, email }` |
 | 404 Not Found | User does not exist.                                |
+
+### /categories
+
+#### GET
+
+Get all the available categories and the current user's bias for each.
+
+| Response  | Description                           |
+| --------- | ------------------------------------- |
+| 302 Found | `[ { cid, description, bias }, ... ]` |
