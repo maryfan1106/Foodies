@@ -45,3 +45,14 @@ or a previously issued JSON Web Token using HTTP Bearer Authentication
 | 200 OK           | User logged in. `{ token : JWT }` |
 | 400 Bad Request  | Missing a required field.         |
 | 401 Unauthorized | Incorrect credentials.            |
+
+### /users/:email
+
+#### GET
+
+Get a user's name given their email address.
+
+| Response      | Description                                         |
+| ------------- | --------------------------------------------------- |
+| 302 Found     | User exists and data is returned: `{ name, email }` |
+| 404 Not Found | User does not exist.                                |
