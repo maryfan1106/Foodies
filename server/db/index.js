@@ -11,4 +11,5 @@ export async function getDbInstance() {
   return db;
 }
 
+export * from "./preferences";
 export * from "./user";
