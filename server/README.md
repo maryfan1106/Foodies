@@ -36,7 +36,9 @@ Emails must be unique. All fields are mandatory.
 
 #### POST
 
-Supply an email and password using HTTP Basic Authentication.
+Supply an email and password using HTTP Basic Authentication,
+or a previously issued JSON Web Token using HTTP Bearer Authentication
+(yes, the token can also be used as a method of login).
 
 | Response         | Description                       |
 | ---------------- | --------------------------------- |

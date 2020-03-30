@@ -1,8 +1,28 @@
-import { Basic } from "permit";
+import jwt from "jsonwebtoken";
+import { Basic, Bearer } from "permit";
 import { getUser } from "../db";
 import { comparePassword } from "./util";
 
 const permitBasic = new Basic();
+const permitBearer = new Bearer();
+
+async function tryBearer(req, res) {
+  const jwtToken = permitBearer.check(req);
+
+  if (!jwtToken) {
+    return false;
+  }
+
+  try {
+    const payload = jwt.verify(jwtToken, process.env.AUTH_SECRET);
+    req.user = await getUser(payload.email);
+    return true;
+  } catch (err) {
+    res.status(400).send({ err });
+  }
+
+  return false;
+}
 
 async function tryBasic(req, res) {
   const credentials = permitBasic.check(req);
@@ -27,7 +47,7 @@ async function tryBasic(req, res) {
 }
 
 export async function requireLogin(req, res, next) {
-  if (await tryBasic(req, res)) {
+  if ((await tryBearer(req, res)) || (await tryBasic(req, res))) {
     next();
   }
 }
