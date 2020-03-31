@@ -57,6 +57,17 @@ Get a user's name given their email address.
 | 302 Found     | User exists and data is returned: `{ name, email }` |
 | 404 Not Found | User does not exist.                                |
 
+### /events/:eid
+
+#### GET
+
+Get an event by its event ID.
+
+| Response      | Description                                                                                |
+| ------------- | ------------------------------------------------------------------------------------------ |
+| 302 Found     | Event exists: `{ eid, name, timestamp, budget, attendees [ { role, name, email }, ... ] }` |
+| 404 Not Found | Event does not exist.                                                                      |
+
 ### /categories
 
 #### GET
