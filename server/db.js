@@ -48,3 +48,46 @@ export function getEvent(eid) {
                WHERE      eid = ${eid}`),
   ]).then(([event, attendees]) => ({ ...event, attendees }));
 }
+
+const ROLES = Object.freeze({
+  host: 0,
+  attendee: 1,
+});
+
+export function insertEvent(uid, name, timestamp, budget, attendees) {
+  return db
+    .run(
+      SQL`INSERT INTO events (name, timestamp, budget)
+          VALUES (${name}, ${timestamp}, ${budget})`
+    )
+    .then((stmt) => {
+      const eventid = stmt.lastID;
+
+      const hProm = db.run(SQL`INSERT INTO attendees (uid, eid, role)
+                               VALUES (${uid}, ${eventid}, ${ROLES.host})`);
+
+      const aProms = attendees.map((email) =>
+        db.run(SQL`INSERT INTO attendees (uid, eid, role)
+                   SELECT      uid, ${eventid}, ${ROLES.attendee}
+                   FROM        users
+                   WHERE       email = ${email}`)
+      );
+
+      // get the emails that failed because they're not users
+      const invalid = new Set(attendees);
+
+      return Promise.all([...aProms, hProm])
+        .then(
+          () =>
+            db.each(
+              `SELECT     email
+               FROM       users
+               INNER JOIN attendees USING(uid)
+               WHERE      eid = ${eventid}`,
+              [],
+              (_, { email }) => invalid.delete(email)
+            ) // TODO: how to handle err?
+        )
+        .then(() => ({ eid: eventid, invalid: Array.from(invalid) }));
+    });
+}
