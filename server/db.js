@@ -37,3 +37,14 @@ export function getBiases(uid) {
                     LEFT JOIN preferences AS pref
                       ON c.cid = pref.cid AND pref.uid = ${uid}`);
 }
+
+export function getEvent(eid) {
+  return Promise.all([
+    db.get(SQL`SELECT eid, name, timestamp, budget
+               FROM   events WHERE eid = ${eid}`),
+    db.all(SQL`SELECT     role, name, email
+               FROM       attendees
+               INNER JOIN users USING(uid)
+               WHERE      eid = ${eid}`),
+  ]).then(([event, attendees]) => ({ ...event, attendees }));
+}
