@@ -57,6 +57,22 @@ Get a user's name given their email address.
 | 302 Found     | User exists and data is returned: `{ name, email }` |
 | 404 Not Found | User does not exist.                                |
 
+### /events
+
+#### POST
+
+Create a new event.
+The returned object includes the event ID and the emails that could not be mapped to users
+(and thus not added as guests).
+
+```javascript
+{ name, time, budget, guests [ email, ... ] }
+```
+
+| Response    | Description                                                               |
+| ----------- | ------------------------------------------------------------------------- |
+| 201 Created | Event successfully created. Returned object includes `eid` and `invalid`. |
+
 ### /events/:eid
 
 #### GET
