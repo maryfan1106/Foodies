@@ -3,6 +3,9 @@
 We use [Prettier](https://prettier.io/) for linting.
 Please run `npx prettier --write .` before committing.
 
+An instance of this server is [available](https://the-last-resort.herokuapp.com/).
+Due to Heroku's ephemeral filesystem, the database is rolled back at least once a day.
+
 ## Quick start
 
 Install dependencies and run in development mode:
