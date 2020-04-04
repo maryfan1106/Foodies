@@ -26,3 +26,21 @@ Future<bool> logIn(String email, String password) async {
 
   return false;
 }
+
+Future<bool> signUp(String name, String email, String password) async {
+  final Map<String, dynamic> data = {
+    'name': name,
+    'email': email,
+    'password': password,
+  };
+  final FoodiesData fd = await foodiesPost('/users', data: data);
+
+  switch (fd.status) {
+    case HttpStatus.created:
+      final String token = fd.body['token'];
+      _setToken(token);
+      return true;
+  }
+
+  return false;
+}

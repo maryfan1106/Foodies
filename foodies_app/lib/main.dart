@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' show DotEnv;
 
 import 'pages/login_screen.dart' show LoginScreen;
+import 'pages/register_screen.dart' show RegisterScreen;
 
 void main() async {
   await DotEnv().load('.env');
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/login',
       routes: {
+        '/register': (_) => RegisterScreen(),
         '/login': (_) => LoginScreen(),
       },
     );
