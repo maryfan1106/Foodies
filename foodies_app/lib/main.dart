@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' show DotEnv;
 
-void main() {
+import 'pages/login_screen.dart' show LoginScreen;
+
+void main() async {
+  await DotEnv().load('.env');
   runApp(MyApp());
 }
 
@@ -8,19 +12,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
+      title: 'Foodies',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        accentColor: Colors.deepPurpleAccent,
+      ),
+      initialRoute: '/login',
+      routes: {
+        '/login': (_) => LoginScreen(),
+      },
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }
