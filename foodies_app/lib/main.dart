@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/pages/login_screen.dart';
+import 'package:foodiesapp/pages/register_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/login',
       routes: {
+        '/register': (context) => RegisterScreen(),
         '/login': (context) => LoginScreen(),
       },
     );
