@@ -3,32 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
 
-    signUp(String name, email, password) async {
+    logIn(String email, password) async {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       Map <String, String> data = {
-        'name': name,
         'email': email,
         'password': password
       };
       var jsonResponse;
-      var response = await http.post("https://the-last-resort.herokuapp.com/users/", body: jsonEncode(data));
-      // TODO: JSON object is not passing correctly?
-      print(jsonEncode(data));
-      if(response.statusCode == 201) {
+      var response = await http.post("https://the-last-resort.herokuapp.com/users/login", body: jsonEncode(data));
+      if(response.statusCode == 200) {
         jsonResponse = jsonDecode(response.body);
         if(jsonResponse != null) {
           sharedPreferences.setString("token", jsonResponse['token']);
           print(response.body);
-          // TODO: Navigate to HomeScreen
           //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MainPage()), (Route<dynamic> route) => false);
         }
       }
@@ -37,19 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-    final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-
-    final nameField = TextField(
-      controller: nameController,
-      obscureText: false,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Name",
-          border:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
 
     final emailField = TextField(
       controller: emailController,
@@ -71,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
 
-    final registerButton = Material(
+    final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Color(0xff01A0C7),
@@ -79,14 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          print(nameController.text);
           print(emailController.text);
           print(passwordController.text);
-          signUp("Jenny Lee", "jlee@gmail.com","password123");
+          logIn("test1@gmail.com","password123");
         },
-        child: Text("Register",
-            textAlign: TextAlign.center,
-            ),
+        child: Text("Login",
+          textAlign: TextAlign.center,
+        ),
       ),
     );
 
@@ -115,15 +99,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 45.0),
-                nameField,
-                SizedBox(height: 25.0),
                 emailField,
                 SizedBox(height: 25.0),
                 passwordField,
                 SizedBox(
                   height: 35.0,
                 ),
-                registerButton,
+                loginButton,
                 SizedBox(
                   height: 15.0,
                 ),
