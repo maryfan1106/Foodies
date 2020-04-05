@@ -88,6 +88,21 @@ The description of a restaurant is its category.
 | 302 Found     | Event exists: `{ eid, name, timestamp, budget, attendees [ { role, name, email }, ... ], restaurants [ { camis, name, address, phone, description } ] }` |
 | 404 Not Found | Event does not exist.                                                                                                                                    |
 
+### /events/:eid/vote
+
+#### POST
+
+Vote for a restaurant for an event.
+
+```
+{ camis }
+```
+
+| Response        | Description                                                                  |
+| --------------- | ---------------------------------------------------------------------------- |
+| 201 Created     | Vote was successful.                                                         |
+| 400 Bad Request | User hasn't been invited to the event, or restaurant or event doesn't exist. |
+
 ### /categories
 
 #### GET
