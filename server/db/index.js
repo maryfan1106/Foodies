@@ -14,3 +14,4 @@ export async function getDbInstance() {
 export * from "./events";
 export * from "./preferences";
 export * from "./user";
+export * from "./votes";
