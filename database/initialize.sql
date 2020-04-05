@@ -131,6 +131,12 @@ BEGIN TRANSACTION;
         budget INTEGER
     );
 
+    CREATE TABLE suggestions (
+        eid INTEGER NOT NULL REFERENCES events(eid),
+        camis INTEGER NOT NULL REFERENCES restaurants(camis),
+        UNIQUE(eid, camis)
+    );
+
     -- attendees table maps users to events
     CREATE TABLE attendees (
         uid INTEGER NOT NULL REFERENCES users(uid),
