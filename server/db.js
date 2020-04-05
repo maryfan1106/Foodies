@@ -38,6 +38,17 @@ export function getBiases(uid) {
                       ON c.cid = pref.cid AND pref.uid = ${uid}`);
 }
 
+// NOT EXPORTED
+function generateRestaurants(eid) {
+  // TODO: do something with biases, time, and location
+
+  return db.run(SQL`INSERT INTO suggestions (eid, camis)
+                    SELECT      ${eid}, camis
+                    FROM        restaurants
+                    ORDER BY    RANDOM()
+                    LIMIT       5`);
+}
+
 export function getEvent(eid) {
   return Promise.all([
     db.get(SQL`SELECT eid, name, timestamp, budget
@@ -46,7 +57,16 @@ export function getEvent(eid) {
                FROM       attendees
                INNER JOIN users USING(uid)
                WHERE      eid = ${eid}`),
-  ]).then(([event, attendees]) => ({ ...event, attendees }));
+    db.all(SQL`SELECT     r.camis, name, address, phone, description
+               FROM       suggestions AS s
+               INNER JOIN restaurants AS r USING(camis)
+               INNER JOIN categories  AS c USING(cid)
+               WHERE      eid = ${eid}`),
+  ]).then(([event, attendees, restaurants]) => ({
+    ...event,
+    attendees,
+    restaurants,
+  }));
 }
 
 const ROLES = Object.freeze({
@@ -63,6 +83,8 @@ export function insertEvent(uid, name, timestamp, budget, attendees) {
     .then((stmt) => {
       const eventid = stmt.lastID;
 
+      const genProm = generateRestaurants(eventid);
+
       const hProm = db.run(SQL`INSERT INTO attendees (uid, eid, role)
                                VALUES (${uid}, ${eventid}, ${ROLES.host})`);
 
@@ -76,7 +98,7 @@ export function insertEvent(uid, name, timestamp, budget, attendees) {
       // get the emails that failed because they're not users
       const invalid = new Set(attendees);
 
-      return Promise.all([...aProms, hProm])
+      return Promise.all([...aProms, hProm, genProm])
         .then(
           () =>
             db.each(
