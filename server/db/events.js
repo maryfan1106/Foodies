@@ -11,11 +11,14 @@ export async function getEvent(eid) {
                FROM       attendees
                INNER JOIN users USING(uid)
                WHERE      eid = ${eid}`),
-    db.all(SQL`SELECT     r.camis, name, address, phone, description
+    db.all(SQL`SELECT     r.camis, name, address, phone, description,
+                          COUNT(uid) AS votes
                FROM       suggestions AS s
+               LEFT JOIN  attendees   AS a USING(eid, camis)
                INNER JOIN restaurants AS r USING(camis)
                INNER JOIN categories  AS c USING(cid)
-               WHERE      eid = ${eid}`),
+               WHERE      eid = ${eid}
+               GROUP BY   s.camis`),
   ]).then(([event, attendees, restaurants]) => ({
     ...event,
     attendees,
