@@ -81,11 +81,12 @@ The returned object includes the event ID and the emails that could not be mappe
 #### GET
 
 Get an event by its event ID.
+The description of a restaurant is its category.
 
-| Response      | Description                                                                                |
-| ------------- | ------------------------------------------------------------------------------------------ |
-| 302 Found     | Event exists: `{ eid, name, timestamp, budget, attendees [ { role, name, email }, ... ] }` |
-| 404 Not Found | Event does not exist.                                                                      |
+| Response      | Description                                                                                                                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 302 Found     | Event exists: `{ eid, name, timestamp, budget, attendees [ { role, name, email }, ... ], restaurants [ { camis, name, address, phone, description } ] }` |
+| 404 Not Found | Event does not exist.                                                                                                                                    |
 
 ### /categories
 
