@@ -113,3 +113,32 @@ export function insertEvent(uid, name, timestamp, budget, attendees) {
         .then(() => ({ eid: eventid, invalid: Array.from(invalid) }));
     });
 }
+
+export function insertVote(uid, eid, camis) {
+  return db
+    .get(
+      SQL`SELECT 1
+          FROM   attendees
+          WHERE  uid = ${uid} AND eid = ${eid}`
+    )
+    .then((one) => {
+      if (!one) {
+        return new Promise(() => {
+          throw "User has not been invited to this event";
+        });
+      }
+
+      return db
+        .run(
+          SQL`UPDATE attendees
+              SET    camis = ${camis}
+              WHERE  uid   = ${uid} AND eid = ${eid}`
+        )
+        .then(() =>
+          db.get(SQL`SELECT     uid, eid, r.name
+                     FROM       attendees   AS a
+                     INNER JOIN restaurants AS r USING(camis)
+                     WHERE      eid = ${eid} AND uid = ${uid}`)
+        );
+    });
+}

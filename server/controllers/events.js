@@ -1,4 +1,4 @@
-import { insertEvent, getEvent } from "../db";
+import { insertEvent, getEvent, insertVote } from "../db";
 
 export function getEventByEid(req, res) {
   getEvent(req.params.eid).then((event) =>
@@ -14,5 +14,12 @@ export function createEvent(req, res) {
     .then(({ eid, invalid }) =>
       getEvent(eid).then((event) => res.status(201).json({ ...event, invalid }))
     )
+    .catch((err) => res.status(400).json({ err }));
+}
+
+export function voteEvent(req, res) {
+  const { camis } = req.body;
+  insertVote(req.user.uid, req.params.eid, camis)
+    .then((vote) => res.status(201).json(vote))
     .catch((err) => res.status(400).json({ err }));
 }
