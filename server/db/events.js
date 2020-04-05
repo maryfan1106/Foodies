@@ -11,9 +11,15 @@ export async function getEvent(eid) {
                FROM       attendees
                INNER JOIN users USING(uid)
                WHERE      eid = ${eid}`),
+    db.all(SQL`SELECT     r.camis, name, address, phone, description
+               FROM       suggestions AS s
+               INNER JOIN restaurants AS r USING(camis)
+               INNER JOIN categories  AS c USING(cid)
+               WHERE      eid = ${eid}`),
   ]).then(([event, attendees, restaurants]) => ({
     ...event,
     attendees,
+    restaurants,
   }));
 }
 
@@ -21,6 +27,19 @@ const ROLES = Object.freeze({
   host: 0,
   guest: 1,
 });
+
+async function generateRestaurants(eid) {
+  const db = await getDbInstance();
+  // TODO: do something with biases, prices, time, and location
+
+  const query = SQL`INSERT INTO suggestions (eid, camis)
+                    SELECT      ${eid}, camis
+                    FROM        restaurants
+                    ORDER BY    RANDOM()
+                    LIMIT       5`;
+
+  return db.run(query);
+}
 
 export async function insertEvent(uid, name, timestamp, budget, guests) {
   const db = await getDbInstance();
@@ -42,10 +61,12 @@ export async function insertEvent(uid, name, timestamp, budget, guests) {
                WHERE       email = ${email}`)
   );
 
+  const genProm = generateRestaurants(eventid);
+
   // get the emails that failed because they're not users
   const invalid = new Set(guests);
 
-  await Promise.all([...gProms, hProm]);
+  await Promise.all([...gProms, hProm, genProm]);
 
   await db.each(
     `SELECT     email
