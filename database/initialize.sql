@@ -135,6 +135,7 @@ BEGIN TRANSACTION;
     CREATE TABLE attendees (
         uid INTEGER NOT NULL REFERENCES users(uid),
         eid INTEGER NOT NULL REFERENCES events(eid),
+        camis INTEGER REFERENCES restaurants(camis), -- vote
         role INTEGER NOT NULL, -- 0 (host), 1 (attendee)
         UNIQUE(uid, eid)
     );
