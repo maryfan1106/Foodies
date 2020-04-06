@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:foodiesapp/pages/home_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,10 +34,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (jsonResponse != null) {
           sharedPreferences.setString("token", jsonResponse['token']);
           print(response.body);
-          //Navigator.of(context).pushAndRemoveUntil(
-          //  MaterialPageRoute(builder: (BuildContext context) => MainPage()),
-          //  (Route<dynamic> route) => false,
-          //);
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
+            (Route<dynamic> route) => false,
+          );
         }
       } else {
         print(response.body);
