@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final client = http.Client();
     try {
+      print("RERENDERING");
       // GET /events/attending
       final getUserAttending = new http.Request(
         'GET',
