@@ -1,10 +1,33 @@
-import { insertEvent, getEvent, insertVote, getVote } from "../db";
+import {
+  insertEvent,
+  getEvent,
+  getOrganizingEvents,
+  getAttendingEvents,
+  insertVote,
+  getVote,
+} from "../db";
 
 export function getEventByEid(req, res) {
   getEvent(req.params.eid).then((event) =>
     event.eid
       ? res.status(302).json(event)
       : res.status(404).json({ err: "Event not found" })
+  );
+}
+
+export function eventsOrganizing(req, res) {
+  getOrganizingEvents(req.user.uid).then((events) =>
+    events.length
+      ? res.status(302).json(events)
+      : res.status(404).json({ err: "User isn't organizing any events" })
+  );
+}
+
+export function eventsAttending(req, res) {
+  getAttendingEvents(req.user.uid).then((events) =>
+    events.length
+      ? res.status(302).json(events)
+      : res.status(404).json({ err: "User isn't attending any events" })
   );
 }
 
