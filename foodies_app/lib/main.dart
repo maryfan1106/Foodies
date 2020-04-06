@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodiesapp/pages/home_screen.dart';
 import 'package:foodiesapp/pages/login_screen.dart';
 import 'package:foodiesapp/pages/register_screen.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.lightBlue,
         accentColor: Colors.white,
       ),
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         '/register': (context) => RegisterScreen(),
         '/login': (context) => LoginScreen(),
