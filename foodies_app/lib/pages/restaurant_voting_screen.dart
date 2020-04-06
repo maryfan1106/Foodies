@@ -15,6 +15,10 @@ class RestaurantVotingScreen extends StatefulWidget {
 }
 
 class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
+  Restaurant _vote;
+
+  void _setVote(Restaurant restaurant) => setState(() => _vote = restaurant);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +40,8 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
               final Restaurant restaurant = widget.restaurants[index];
               return RestaurantCard(
                 restaurant: restaurant,
+                selected: restaurant == _vote,
+                setVote: _setVote,
               );
             },
           ),
