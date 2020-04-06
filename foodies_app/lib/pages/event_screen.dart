@@ -35,14 +35,7 @@ class _EventScreenState extends State<EventScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              widget.name,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            title: Text(widget.name),
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.more_horiz),
