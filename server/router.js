@@ -3,6 +3,8 @@ import { createUser, getUserByEmail, logIn } from "./controllers/users";
 import { getBiasByUser } from "./controllers/categories";
 import {
   getEventByEid,
+  eventsAttending,
+  eventsOrganizing,
   createEvent,
   getVoteByEid,
   voteEvent,
@@ -18,6 +20,10 @@ router.route("/users/:email").get(requireLogin, getUserByEmail);
 router.route("/categories").get(requireLogin, getBiasByUser);
 
 router.route("/events").post(requireLogin, createEvent);
+
+router.route("/events/organizing").get(requireLogin, eventsOrganizing);
+
+router.route("/events/attending").get(requireLogin, eventsAttending);
 
 router.route("/events/:eid").get(requireLogin, getEventByEid);
 

@@ -79,6 +79,28 @@ The returned object includes the event ID and the emails that could not be mappe
 | ----------- | ------------------------------------------------------------------------- |
 | 201 Created | Event successfully created. Returned object includes `eid` and `invalid`. |
 
+### /events/organizing
+
+#### GET
+
+Returns a short summary of all events the current user is the host of.
+
+| Response      | Description                                                                    |
+| ------------- | ------------------------------------------------------------------------------ |
+| 302 Found     | User is host of events. `[ { eid, name, timestamp, budget, attendees }, ... ]` |
+| 404 Not Found | User is not the host of any events.                                            |
+
+### /events/attending
+
+#### GET
+
+Returns a short summary of all events the current user is attending.
+
+| Response      | Description                                                                      |
+| ------------- | -------------------------------------------------------------------------------- |
+| 302 Found     | User is attending events. `[ { eid, name, timestamp, budget, attendees }, ... ]` |
+| 404 Not Found | User is not attending any events.                                                |
+
 ### /events/:eid
 
 #### GET
