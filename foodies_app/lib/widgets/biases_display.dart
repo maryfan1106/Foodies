@@ -48,6 +48,7 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
                       divisions: 20,
                       min: -10.0,
                       max: 10.0,
+                      label: "${values[i]}",
                       onChanged: (newBias) => {
                         setState(() {
                           values[i] = newBias;
