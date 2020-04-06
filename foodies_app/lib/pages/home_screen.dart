@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/models/event_model.dart';
-import 'package:foodiesapp/models/user_model.dart';
 import 'package:foodiesapp/pages/login_screen.dart';
 import 'package:foodiesapp/widgets/all_events.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final client = http.Client();
     try {
+      print("RERENDERING");
       // GET /events/attending
       final getUserAttending = new http.Request('GET', Uri.parse("http://localhost:3000/events/attending"));
       getUserAttending.headers['Authorization'] = "Bearer " + sharedPreferences.getString("token");
