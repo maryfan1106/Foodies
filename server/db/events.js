@@ -37,6 +37,8 @@ async function generateRestaurants(eid) {
   return db.run(SQL`INSERT INTO suggestions (eid, camis)
                     SELECT      ${eid}, camis
                     FROM        restaurants
+                    INNER JOIN  prices    USING(camis)
+                    INNER JOIN  openhours USING(camis)
                     ORDER BY    RANDOM()
                     LIMIT       5`);
 }
