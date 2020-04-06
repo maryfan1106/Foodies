@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/models/event_details_model.dart';
+import 'package:foodiesapp/widgets/event_details_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +32,9 @@ class _EventScreenState extends State<EventScreen> {
     final respStr = await response.stream.bytesToString();
     var jsonResponse = jsonDecode(respStr);
     EventDetails eventDetails = new EventDetails.fromJson(jsonResponse);
-    print(eventDetails);
+    setState(() {
+      _eventDetails = eventDetails;
+    });
   }
 
   @override
@@ -61,32 +64,7 @@ class _EventScreenState extends State<EventScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-//          Card(
-//              child: ListTile(
-//                title: Center(child: Text('Hosted by: ' + widget.event.host.name)),
-//              )
-//          ),
-          //EventAttendees(),
-          Container(
-            height: 90.0,
-            child: Center(
-                child: RaisedButton(
-                  child: Text(
-                    'Vote for Restaurant',
-                  ),
-                  onPressed: () {
-//                    Navigator.push(
-//                      context,
-//                      MaterialPageRoute(builder: (context) => RestaurantVotingScreen()),
-//                    );
-                  },
-                )
-            ),
-          ),
-        ],
-      ),
+      body: EventDetailsDisplay(details: _eventDetails),
     );
   }
 }
