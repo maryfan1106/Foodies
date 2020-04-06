@@ -8,3 +8,11 @@ export async function getBiases(uid) {
                     LEFT JOIN preferences AS pref
                       ON      c.cid = pref.cid AND pref.uid = ${uid}`);
 }
+
+export async function setBias(uid, category, bias) {
+  const db = await getDbInstance();
+  return db.run(SQL`INSERT INTO preferences (uid, cid, bias)
+                    VALUES      (${uid}, ${category}, ${bias})
+                    ON CONFLICT (uid, cid)
+                      DO UPDATE SET bias = excluded.bias`);
+}
