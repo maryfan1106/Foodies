@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/eventbrief.dart' show EventBrief;
 import '../services/events.dart' show getEventsAttending, getEventsOrganizing;
 import '../widgets/events.dart' show Events;
+import 'create_event_screen.dart' show CreateEventScreen;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -89,7 +90,12 @@ class _HomeScreenState extends State<HomeScreen>
         child: const Icon(Icons.add),
         tooltip: 'Create new event',
         onPressed: () {
-          // TODO: Navigate to CreateEventPage
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateEventScreen(),
+            ),
+          );
         },
       ),
       body: TabBarView(

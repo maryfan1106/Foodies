@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/bias_model.dart';
 import '../models/category.dart' show Category;
 import '../services/categories.dart' show getCategories;
 import '../widgets/biases_display.dart' show BiasesDisplay;
+import '../widgets/biases_display.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
