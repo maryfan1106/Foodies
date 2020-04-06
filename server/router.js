@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { createUser, getUserByEmail, logIn } from "./controllers/users";
 import { getBiasByUser } from "./controllers/categories";
-import { getEventByEid, createEvent } from "./controllers/events";
+import {
+  getEventByEid,
+  eventsAttending,
+  eventsOrganizing,
+  createEvent,
+} from "./controllers/events";
 import { getVoteByEid, voteEvent } from "./controllers/votes";
 import { requireLogin } from "./services/permit";
 
@@ -14,6 +19,10 @@ router.route("/users/:email").get(requireLogin, getUserByEmail);
 router.route("/categories").get(requireLogin, getBiasByUser);
 
 router.route("/events").post(requireLogin, createEvent);
+
+router.route("/events/organizing").get(requireLogin, eventsOrganizing);
+
+router.route("/events/attending").get(requireLogin, eventsAttending);
 
 router.route("/events/:eid").get(requireLogin, getEventByEid);
 

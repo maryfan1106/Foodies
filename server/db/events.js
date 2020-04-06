@@ -79,3 +79,19 @@ export async function insertEvent(uid, name, timestamp, budget, guests) {
 
   return { eid: eventid, invalid: Array.from(invalid) };
 }
+
+async function getEvents(uid, role) {
+  const db = await getDbInstance();
+  return db.all(SQL`SELECT     eid, name, timestamp, budget,
+                               COUNT(uid) AS numAttending
+                    FROM       (SELECT eid
+                                FROM   attendees
+                                WHERE  uid = ${uid} AND role = ${role})
+                    INNER JOIN events    USING(eid)
+                    INNER JOIN attendees USING(eid)
+                    GROUP BY   eid`);
+}
+
+export const getOrganizingEvents = (uid) => getEvents(uid, ROLES.host);
+
+export const getAttendingEvents = (uid) => getEvents(uid, ROLES.guest);
