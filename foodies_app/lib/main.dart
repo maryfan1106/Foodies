@@ -1,3 +1,4 @@
+import 'package:Foodies/pages/create_event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' show DotEnv;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/login': (_) => LoginScreen(),
         '/home': (_) => HomeScreen(),
         '/profile': (_) => ProfileScreen(),
+        '/create': (_) => CreateEventScreen(),
       },
     );
   }
