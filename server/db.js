@@ -145,3 +145,10 @@ export function insertVote(uid, eid, camis) {
         );
     });
 }
+
+export function getVote(uid, eid) {
+  return db.get(`SELECT     camis, name
+                 FROM       restaurants
+                 INNER JOIN attendees USING(camis)
+                 WHERE      uid = ${uid} AND eid = ${eid}`);
+}

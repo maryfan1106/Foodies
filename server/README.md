@@ -90,6 +90,15 @@ The description of a restaurant is its category.
 
 ### /events/:eid/vote
 
+#### GET
+
+Get the current user's vote for a restaurant.
+
+| Response      | Description                                                            |
+| ------------- | ---------------------------------------------------------------------- |
+| 302 Found     | User has voted for the event; restaurant details are `{ camis, name }` |
+| 404 Not Found | No vote recorded (user has not voted or is not attendee).              |
+
 #### POST
 
 Vote for a restaurant for an event.
