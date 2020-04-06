@@ -27,3 +27,11 @@ export async function insertVote(uid, eid, camis) {
                     INNER JOIN restaurants AS r USING(camis)
                     WHERE      eid = ${eid} AND uid = ${uid}`);
 }
+
+export async function getVote(uid, eid) {
+  const db = await getDbInstance();
+  return db.get(`SELECT     camis, name
+                 FROM       restaurants
+                 INNER JOIN attendees USING(camis)
+                 WHERE      uid = ${uid} AND eid = ${eid}`);
+}
