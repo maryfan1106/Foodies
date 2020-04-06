@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/models/event_model.dart';
+import 'package:foodiesapp/pages/create_event_screen.dart';
 import 'package:foodiesapp/pages/login_screen.dart';
 import 'package:foodiesapp/widgets/all_events.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final client = http.Client();
     try {
-      print("RERENDERING");
       // GET /events/attending
       final getUserAttending = new http.Request(
         'GET',
@@ -67,20 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
     } finally {
       client.close();
     }
-
-//    // GET /users/:email
-//    final client = http.Client();
-//    String testEmail = "julian@gmail.com";
-//    final request = new http.Request('GET', Uri.parse("http://localhost:3000/users/$testEmail"));
-//    request.headers['Authorization'] = "Bearer " + sharedPreferences.getString("token");
-//    request.headers['Accept'] = "application/json";
-//    request.headers['Content-type'] = "application/json";
-//    request.followRedirects = false;
-//    final response = await client.send(request);
-//    final respStr = await response.stream.bytesToString();
-//    var jsonResponse = jsonDecode(respStr);
-//    User user = new User.fromJson(jsonResponse);
-//    print(user);
   }
 
   @override
@@ -94,19 +81,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.exit_to_app),
-          iconSize: 30.0,
-          color: Colors.white,
-          onPressed: () {
-            sharedPreferences.clear();
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (BuildContext context) => LoginScreen(),
-              ),
-              (Route<dynamic> route) => false,
-            );
-          },
+        leading: Transform.rotate(
+          angle: 180 * math.pi / 180,
+          child: IconButton(
+            icon: Icon(Icons.exit_to_app),
+            iconSize: 30.0,
+            color: Colors.white,
+            onPressed: () {
+              sharedPreferences.clear();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => LoginScreen()),
+                  (Route<dynamic> route) => false);
+            },
+          ),
         ),
         title: Text(
           'Events',
@@ -132,18 +120,20 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: 90.0,
             child: Center(
-                child: RaisedButton(
-              child: Text(
-                'Create New Event',
+              child: RaisedButton(
+                child: Text(
+                  'Create New Event',
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateEventScreen(),
+                    ),
+                  );
+                },
               ),
-              onPressed: () {
-                // TODO: Navigate to CreateEventPage
-                //Navigator.push(
-                //  context,
-                //  MaterialPageRoute(builder: (context) => CreateEventScreen()),
-                //);
-              },
-            )),
+            ),
           ),
           AllEvents(attending: _attending, organizing: _organizing),
         ],
