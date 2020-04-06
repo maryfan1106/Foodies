@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: const Icon(Icons.add),
         tooltip: 'Create new event',
         onPressed: () {
-          // TODO: Navigate to CreateEventPage
+          Navigator.pushNamed(context, '/create');
         },
       ),
       body: TabBarView(
