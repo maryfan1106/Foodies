@@ -5,14 +5,14 @@ class EventBrief {
   final String name;
   final DateTime timestamp;
   final int budget;
-  final int attendees;
+  final int numAttending;
 
   const EventBrief({
     @required this.eid,
     @required this.name,
     @required this.timestamp,
     @required this.budget,
-    @required this.attendees,
+    @required this.numAttending,
   });
 
   static EventBrief fromJson(dynamic parsedJson) {
@@ -21,7 +21,7 @@ class EventBrief {
       name: parsedJson['name'],
       timestamp: DateTime.parse(parsedJson['timestamp']),
       budget: parsedJson['budget'],
-      attendees: parsedJson['attendees'],
+      numAttending: parsedJson['numAttending'],
     );
   }
 }
