@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../models/attendee.dart' show Attendee;
+import 'add_guests.dart' show AddGuests;
+
 class CreateEventForm extends StatefulWidget {
   @override
   _CreateEventFormState createState() => _CreateEventFormState();
@@ -8,6 +11,7 @@ class CreateEventForm extends StatefulWidget {
 class _CreateEventFormState extends State<CreateEventForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
+  final List<Attendee> _guests = [];
   int _budget = 2;
 
   Widget _budgetButton(int budget) {
@@ -64,6 +68,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, _budgetButton).skip(1).toList(),
             ),
+            AddGuests(guests: _guests),
             RaisedButton(
               child: const Text('Create Event'),
               onPressed: processNewEvent,

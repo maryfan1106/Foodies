@@ -18,7 +18,7 @@ class Attendee {
 
   static Attendee fromJson(dynamic parsedJson) {
     return Attendee(
-      role: AttendeeRole.values[parsedJson['role']],
+      role: AttendeeRole.values[parsedJson['role'] ?? 1], // default to guest
       name: parsedJson['name'],
       email: parsedJson['email'],
     );
