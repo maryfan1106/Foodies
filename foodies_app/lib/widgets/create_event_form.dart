@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/attendee.dart' show Attendee;
+import '../services/events.dart' show createEvent;
 import 'add_guests.dart' show AddGuests;
 
 class CreateEventForm extends StatefulWidget {
@@ -25,6 +26,14 @@ class _CreateEventFormState extends State<CreateEventForm> {
   void processNewEvent() async {
     if (!_formKey.currentState.validate()) {
       return;
+    }
+
+    String _name = _nameController.text;
+    if (await createEvent(_name, _budget, _guests)) {
+      print("successfully created event");
+      Navigator.pop(context);
+    } else {
+      print("failed to create event");
     }
   }
 
