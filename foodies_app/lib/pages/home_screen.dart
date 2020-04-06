@@ -122,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             iconSize: 30.0,
             color: Colors.white,
             onPressed: () {
-              // TODO: Navigate to ProfilePage
-              //Navigator.pushNamed(context, '/profileScreen');
+              Navigator.pushNamed(context, '/profile');
             },
           ),
         ],
