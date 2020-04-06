@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/eventdetail.dart' show EventDetail;
+import '../pages/restaurant_voting_screen.dart' show RestaurantVotingScreen;
 import 'event_attendees.dart' show EventAttendees;
 
 class EventDetailsDisplay extends StatelessWidget {
@@ -13,7 +14,16 @@ class EventDetailsDisplay extends StatelessWidget {
   Widget _voteStatus(BuildContext context) {
     return RaisedButton(
       child: Text('Vote for Restaurant'),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => RestaurantVotingScreen(
+              restaurants: details.restaurants,
+            ),
+          ),
+        );
+      },
     );
   }
 
