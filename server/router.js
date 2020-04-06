@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createUser, getUserByEmail, logIn } from "./controllers/users";
-import { getBiasByUser } from "./controllers/categories";
+import { getBiasByUser, setUserBias } from "./controllers/categories";
 import {
   getEventByEid,
   eventsAttending,
@@ -17,6 +17,8 @@ router.route("/users").post(createUser);
 router.route("/users/:email").get(requireLogin, getUserByEmail);
 
 router.route("/categories").get(requireLogin, getBiasByUser);
+
+router.route("/categories/:cid").put(requireLogin, setUserBias);
 
 router.route("/events").post(requireLogin, createEvent);
 
