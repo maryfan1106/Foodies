@@ -2,7 +2,7 @@ import { Router } from "express";
 import { createUser, getUserByEmail, logIn } from "./controllers/users";
 import { getBiasByUser } from "./controllers/categories";
 import { getEventByEid, createEvent } from "./controllers/events";
-import { voteEvent } from "./controllers/votes";
+import { getVoteByEid, voteEvent } from "./controllers/votes";
 import { requireLogin } from "./services/permit";
 
 const router = Router();
@@ -17,7 +17,10 @@ router.route("/events").post(requireLogin, createEvent);
 
 router.route("/events/:eid").get(requireLogin, getEventByEid);
 
-router.route("/events/:eid/vote").post(requireLogin, voteEvent);
+router
+  .route("/events/:eid/vote")
+  .get(requireLogin, getVoteByEid)
+  .post(requireLogin, voteEvent);
 
 router.route("/users/login").post(requireLogin, logIn);
 
