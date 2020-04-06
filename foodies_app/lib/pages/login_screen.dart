@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
         "password": password
       };
       var jsonResponse;
-      var response = await http.post("http://localhost:3000/login", body: jsonEncode(data),
+      var response = await http.post("http://localhost:3000/users/login", body: jsonEncode(data),
           headers: {
             "Accept": "application/json",
             "Content-type": "application/json",
