@@ -38,6 +38,13 @@ export function getBiases(uid) {
                       ON c.cid = pref.cid AND pref.uid = ${uid}`);
 }
 
+export function setBias(uid, category, bias) {
+  return db.run(SQL`INSERT INTO preferences (uid, cid, bias)
+                    VALUES      (${uid}, ${category}, ${bias})
+                    ON CONFLICT (uid, cid)
+                      DO UPDATE SET bias = excluded.bias`);
+}
+
 // NOT EXPORTED
 function generateRestaurants(eid) {
   // TODO: do something with biases, time, and location

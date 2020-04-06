@@ -146,3 +146,18 @@ Get all the available categories and the current user's bias for each.
 | Response  | Description                           |
 | --------- | ------------------------------------- |
 | 302 Found | `[ { cid, description, bias }, ... ]` |
+
+### /categories/:cid
+
+#### PUT
+
+Set the user's preference for a specific category.
+Bias should be an integer value from -10 to 10, inclusive.
+
+```
+{ bias }
+```
+
+| Response       | Description                                                                 |
+| -------------- | --------------------------------------------------------------------------- |
+| 204 No Content | The request succeeded. Update your local data structure or GET /categories. |
