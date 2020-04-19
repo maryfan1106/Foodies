@@ -113,10 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Create New Event',
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CreateEventScreen()),
-                    );
+                    Navigator.pushNamed(context, '/create');
+//                    Navigator.push(
+//                      context,
+//                      MaterialPageRoute(builder: (context) => CreateEventScreen()),
+//                    );
                   },
                 )
             ),

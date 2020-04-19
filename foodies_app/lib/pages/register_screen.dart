@@ -30,7 +30,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         jsonResponse = jsonDecode(response.body);
         if(jsonResponse != null) {
           sharedPreferences.setString("token", jsonResponse['token']);
-          print(response.body);
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
         }
       }
