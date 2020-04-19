@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/pages/home_screen.dart';
+import 'package:foodiesapp/services/auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,38 +12,12 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  final AuthService _auth = AuthService();
   String _error = '';
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  void _signUp(String name, email, password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map data = {
-      'name': name,
-      'email': email,
-      'password': password
-    };
-    var response = await http.post("http://localhost:3000/users/", body: jsonEncode(data),
-        headers: {
-          "Accept": "application/json",
-          "Content-type": "application/json",
-        });
-    if(response.statusCode == 201) {
-      var jsonResponse = jsonDecode(response.body);
-      if(jsonResponse != null) {
-        sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
-      }
-    }
-    else {
-      print(response.body);
-      setState(() {
-        _error = 'Account with this email already exists';
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +59,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          _signUp(_nameController.text, _emailController.text, _passwordController.text);
+        onPressed: () async {
+          dynamic result = await _auth.signUp(_nameController.text, _emailController.text, _passwordController.text);
+          if(result == null) {
+            setState(() {
+              _error = 'Account with this email already exists';
+            });
+          } else {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
+          }
         },
         child: Text("Register",
           textAlign: TextAlign.center,
