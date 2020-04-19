@@ -3,7 +3,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/models/event_model.dart';
-import 'package:foodiesapp/pages/create_event_screen.dart';
 import 'package:foodiesapp/pages/login_screen.dart';
 import 'package:foodiesapp/widgets/all_events.dart';
 import 'package:http/http.dart' as http;
@@ -121,20 +120,18 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: 90.0,
             child: Center(
-              child: RaisedButton(
-                child: const Text(
-                  'Create New Event',
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateEventScreen(),
-                    ),
-                  );
-                },
+                child: RaisedButton(
+              child: Text(
+                'Create New Event',
               ),
-            ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/create');
+//                Navigator.push(
+//                  context,
+//                  MaterialPageRoute(builder: (context) => CreateEventScreen()),
+//                );
+              },
+            )),
           ),
           AllEvents(attending: _attending, organizing: _organizing),
         ],

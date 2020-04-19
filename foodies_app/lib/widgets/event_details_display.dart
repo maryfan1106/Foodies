@@ -16,8 +16,11 @@ class EventDetailsDisplay extends StatelessWidget {
       return CircularProgressIndicator();
     }
 
-    final host = details.attendees.firstWhere((i) => i.role == 0);
-    details.attendees.removeWhere((i) => i.role == 0);
+    // TODO: host is becomes N/A after pop because it was removed
+    var host = details.attendees.firstWhere((i) => i.role == 0,
+        orElse: () => Attendee(role: 0, name: 'N/A', email: 'N/A'));
+    List<Attendee> guests = details.attendees;
+    guests.removeWhere((i) => i.role == 0);
 
     return Column(
       children: <Widget>[
@@ -27,7 +30,7 @@ class EventDetailsDisplay extends StatelessWidget {
             subtitle: Center(child: Text(details.timestamp)),
           ),
         ),
-        EventAttendees(attendees: details.attendees),
+        EventAttendees(attendees: guests),
         Container(
           height: 90.0,
           child: Center(
