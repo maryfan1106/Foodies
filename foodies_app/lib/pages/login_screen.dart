@@ -11,43 +11,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  @override
-  Widget build(BuildContext context) {
-    logIn(String email, password) async {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      final Map<String, String> data = {
-        'email': email,
-        'password': password,
-      };
-      final response = await http.post(
-        "https://the-last-resort.herokuapp.com/users/login",
+  String _error = '';
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _logIn(String email, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {"email": email, "password": password};
+    var response = await http.post("http://localhost:3000/users/login",
         body: jsonEncode(data),
         headers: {
           "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-      );
-      if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        if (jsonResponse != null) {
-          sharedPreferences.setString("token", jsonResponse['token']);
-          print(response.body);
-          Navigator.of(context).pushAndRemoveUntil(
+          "Content-type": "application/json",
+        });
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse != null) {
+        sharedPreferences.setString("token", jsonResponse['token']);
+        Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
-            (Route<dynamic> route) => false,
-          );
-        }
-      } else {
-        print(response.body);
+            (Route<dynamic> route) => false);
       }
+    } else {
+      print(response.body);
+      setState(() {
+        _error = 'Wrong email or password';
+      });
     }
+  }
 
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-
+  @override
+  Widget build(BuildContext context) {
     final emailField = TextField(
-      controller: emailController,
+      controller: _emailController,
       obscureText: false,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -57,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     final passwordField = TextField(
-      controller: passwordController,
+      controller: _passwordController,
       obscureText: true,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -74,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          logIn(emailController.text, passwordController.text);
+          _logIn(_emailController.text, _passwordController.text);
         },
         child: const Text(
           "Login",
@@ -106,6 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+                Text(
+                  _error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                ),
                 const SizedBox(height: 45.0),
                 emailField,
                 const SizedBox(height: 25.0),
@@ -113,6 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 35.0),
                 loginButton,
                 const SizedBox(height: 15.0),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text(
+                    "Don't have an account? Sign Up",
+                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                  ),
+                ),
               ],
             ),
           ),
