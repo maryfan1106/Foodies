@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/pages/home_screen.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:foodiesapp/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,35 +8,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _auth = AuthService();
   String _error = '';
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  void _logIn(String email, password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map data = {"email": email, "password": password};
-    var response = await http.post("http://localhost:3000/users/login",
-        body: jsonEncode(data),
-        headers: {
-          "Accept": "application/json",
-          "Content-type": "application/json",
-        });
-    if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse != null) {
-        sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
-            (Route<dynamic> route) => false);
-      }
-    } else {
-      print(response.body);
-      setState(() {
-        _error = 'Wrong email or password';
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +42,24 @@ class _LoginScreenState extends State<LoginScreen> {
       color: const Color(0xff01A0C7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          _logIn(_emailController.text, _passwordController.text);
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () async {
+          dynamic result = await _auth.logIn(
+            _emailController.text,
+            _passwordController.text,
+          );
+          if (result == null) {
+            setState(() {
+              _error = 'Wrong email or password';
+            });
+          } else {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (BuildContext context) => HomeScreen(),
+              ),
+              (Route<dynamic> route) => false,
+            );
+          }
         },
         child: const Text(
           "Login",
@@ -118,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: Text(
+                  child: const Text(
                     "Don't have an account? Sign Up",
                     style: TextStyle(color: Colors.grey, fontSize: 14.0),
                   ),
