@@ -4,8 +4,8 @@ import 'package:foodiesapp/models/event_details_model.dart';
 class EventAttendees extends StatelessWidget {
   final List<Attendee> attendees;
 
-  EventAttendees({
-    this.attendees,
+  const EventAttendees({
+    @required this.attendees,
   });
 
   @override

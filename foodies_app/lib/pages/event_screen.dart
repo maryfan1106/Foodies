@@ -11,8 +11,8 @@ class EventScreen extends StatefulWidget {
   final int eid;
 
   EventScreen({
-    this.name,
-    this.eid,
+    @required this.name,
+    @required this.eid,
   });
 
   @override
@@ -37,7 +37,7 @@ class _EventScreenState extends State<EventScreen> {
     request.followRedirects = false;
     final response = await client.send(request);
     final respStr = await response.stream.bytesToString();
-    var jsonResponse = jsonDecode(respStr);
+    final jsonResponse = jsonDecode(respStr);
     EventDetails eventDetails = new EventDetails.fromJson(jsonResponse);
     setState(() {
       _eventDetails = eventDetails;
@@ -56,7 +56,7 @@ class _EventScreenState extends State<EventScreen> {
       appBar: AppBar(
         title: Text(
           widget.name,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class _EventScreenState extends State<EventScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.more_horiz),
+            icon: const Icon(Icons.more_horiz),
             iconSize: 30.0,
             color: Colors.white,
             onPressed: () {},

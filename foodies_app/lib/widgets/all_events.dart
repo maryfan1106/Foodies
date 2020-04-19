@@ -6,9 +6,9 @@ class AllEvents extends StatelessWidget {
   final List<Event> attending;
   final List<Event> organizing;
 
-  AllEvents({
-    this.attending,
-    this.organizing,
+  const AllEvents({
+    @required this.attending,
+    @required this.organizing,
   });
 
   @override
@@ -16,7 +16,7 @@ class AllEvents extends StatelessWidget {
     if (attending == null || organizing == null) {
       return CircularProgressIndicator();
     }
-    List<Event> allEvents = attending + organizing;
+    final List<Event> allEvents = attending + organizing;
     return Expanded(
       child: ListView.builder(
         itemCount: allEvents.length,

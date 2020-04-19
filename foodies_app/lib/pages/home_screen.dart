@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
       getUserAttending.followRedirects = false;
       final attendingResponse = await client.send(getUserAttending);
       final attendingStr = await attendingResponse.stream.bytesToString();
-      var jsonResponseA = jsonDecode(attendingStr);
-      List<Event> attendingEvents =
+      final jsonResponseA = jsonDecode(attendingStr);
+      final List<Event> attendingEvents =
           jsonResponseA.map<Event>((i) => Event.fromJson(i)).toList();
       // GET /events/organizing
       final getUserOrganizing = new http.Request(
@@ -57,8 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
       getUserOrganizing.followRedirects = false;
       final organizingResponse = await client.send(getUserOrganizing);
       final organizingStr = await organizingResponse.stream.bytesToString();
-      var jsonResponseO = jsonDecode(organizingStr);
-      List<Event> organizingEvents =
+      final jsonResponseO = jsonDecode(organizingStr);
+      final List<Event> organizingEvents =
           jsonResponseO.map<Event>((i) => Event.fromJson(i)).toList();
 
       setState(() {
@@ -84,19 +84,20 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Transform.rotate(
           angle: 180 * math.pi / 180,
           child: IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.exit_to_app),
             iconSize: 30.0,
             color: Colors.white,
             onPressed: () {
               sharedPreferences.clear();
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (BuildContext context) => LoginScreen()),
+                    builder: (BuildContext context) => LoginScreen(),
+                  ),
                   (Route<dynamic> route) => false);
             },
           ),
         ),
-        title: Text(
+        title: const Text(
           'Events',
           style: TextStyle(
             color: Colors.white,
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             iconSize: 30.0,
             color: Colors.white,
             onPressed: () {
@@ -121,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 90.0,
             child: Center(
               child: RaisedButton(
-                child: Text(
+                child: const Text(
                   'Create New Event',
                 ),
                 onPressed: () {

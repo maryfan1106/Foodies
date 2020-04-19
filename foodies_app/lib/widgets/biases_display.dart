@@ -4,7 +4,7 @@ import 'package:foodiesapp/models/bias_model.dart';
 class BiasesDisplay extends StatefulWidget {
   final List<Bias> biases;
 
-  BiasesDisplay({
+  const BiasesDisplay({
     this.biases,
   });
 
@@ -48,7 +48,7 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
                     divisions: 20,
                     min: -10.0,
                     max: 10.0,
-                    label: "${values[i]}",
+                    label: values[i].toString(),
                     onChanged: (newBias) => {
                       setState(() {
                         values[i] = newBias;

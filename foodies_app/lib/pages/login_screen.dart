@@ -16,20 +16,20 @@ class _LoginScreenState extends State<LoginScreen> {
     logIn(String email, password) async {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      Map<String, String> data = {
+      final Map<String, String> data = {
         'email': email,
         'password': password,
       };
-      var jsonResponse;
-      var response = await http.post(
-          "https://the-last-resort.herokuapp.com/users/login",
-          body: jsonEncode(data),
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-          });
+      final response = await http.post(
+        "https://the-last-resort.herokuapp.com/users/login",
+        body: jsonEncode(data),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+      );
       if (response.statusCode == 200) {
-        jsonResponse = jsonDecode(response.body);
+        final jsonResponse = jsonDecode(response.body);
         if (jsonResponse != null) {
           sharedPreferences.setString("token", jsonResponse['token']);
           print(response.body);
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: emailController,
       obscureText: false,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Email",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: passwordController,
       obscureText: true,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Password",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -69,14 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
+      color: const Color(0xff01A0C7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           logIn(emailController.text, passwordController.text);
         },
-        child: Text(
+        child: const Text(
           "Login",
           textAlign: TextAlign.center,
         ),
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 90.0,
                   child: Center(
                     child: Text(
@@ -106,13 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 45.0),
+                const SizedBox(height: 45.0),
                 emailField,
-                SizedBox(height: 25.0),
+                const SizedBox(height: 25.0),
                 passwordField,
-                SizedBox(height: 35.0),
+                const SizedBox(height: 35.0),
                 loginButton,
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
               ],
             ),
           ),

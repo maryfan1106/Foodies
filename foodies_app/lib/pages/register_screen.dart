@@ -14,15 +14,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     signUp(String name, email, password) async {
-      SharedPreferences sharedPreferences =
+      final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      Map<String, String> data = {
+      final Map<String, String> data = {
         'name': name,
         'email': email,
         'password': password
       };
-      var jsonResponse;
-      var response = await http.post(
+      final response = await http.post(
           "https://the-last-resort.herokuapp.com/users/login",
           body: jsonEncode(data),
           headers: {
@@ -30,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             "Content-Type": "application/json",
           });
       if (response.statusCode == 201) {
-        jsonResponse = jsonDecode(response.body);
+        final jsonResponse = jsonDecode(response.body);
         if (jsonResponse != null) {
           sharedPreferences.setString("token", jsonResponse['token']);
           print(response.body);
@@ -52,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: nameController,
       obscureText: false,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Name",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -62,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: emailController,
       obscureText: false,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Email",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -72,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       controller: passwordController,
       obscureText: true,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Password",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
@@ -81,10 +80,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final registerButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
+      color: const Color(0xff01A0C7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           print(emailController.text);
           print(passwordController.text);
@@ -94,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             passwordController.text,
           );
         },
-        child: Text(
+        child: const Text(
           "Register",
           textAlign: TextAlign.center,
         ),
@@ -111,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 90.0,
                   child: Center(
                     child: Text(
@@ -124,15 +123,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 45.0),
+                const SizedBox(height: 45.0),
                 nameField,
-                SizedBox(height: 25.0),
+                const SizedBox(height: 25.0),
                 emailField,
-                SizedBox(height: 25.0),
+                const SizedBox(height: 25.0),
                 passwordField,
-                SizedBox(height: 35.0),
+                const SizedBox(height: 35.0),
                 registerButton,
-                SizedBox(height: 15.0),
+                const SizedBox(height: 15.0),
               ],
             ),
           ),

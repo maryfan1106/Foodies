@@ -6,8 +6,8 @@ import 'package:foodiesapp/widgets/event_attendees.dart';
 class EventDetailsDisplay extends StatelessWidget {
   final EventDetails details;
 
-  EventDetailsDisplay({
-    this.details,
+  const EventDetailsDisplay({
+    @required this.details,
   });
 
   @override
@@ -16,11 +16,7 @@ class EventDetailsDisplay extends StatelessWidget {
       return CircularProgressIndicator();
     }
 
-    // TODO: host is becomes N/A after pop because it was removed
-    var host = details.attendees.firstWhere(
-      (i) => i.role == 0,
-      orElse: () => Attendee(role: 0, name: 'N/A', email: 'N/A'),
-    );
+    final host = details.attendees.firstWhere((i) => i.role == 0);
     details.attendees.removeWhere((i) => i.role == 0);
 
     return Column(
@@ -36,7 +32,7 @@ class EventDetailsDisplay extends StatelessWidget {
           height: 90.0,
           child: Center(
             child: RaisedButton(
-              child: Text(
+              child: const Text(
                 'Vote for Restaurant',
               ),
               onPressed: () {

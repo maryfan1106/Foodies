@@ -11,7 +11,7 @@ import 'package:foodiesapp/widgets/create_event_form.dart';
 //    request.followRedirects = false;
 //    final response = await client.send(request);
 //    final respStr = await response.stream.bytesToString();
-//    var jsonResponse = jsonDecode(respStr);
+//    final jsonResponse = jsonDecode(respStr);
 //    User user = new User.fromJson(jsonResponse);
 //    print(user);
 
@@ -20,7 +20,7 @@ class CreateEventScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Create Event',
           style: TextStyle(
             color: Colors.white,

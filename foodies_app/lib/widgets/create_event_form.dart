@@ -18,9 +18,10 @@ class _CreateEventFormState extends State<CreateEventForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            decoration: InputDecoration(
-                labelText: 'Event Name',
-                contentPadding: const EdgeInsets.all(20.0)),
+            decoration: const InputDecoration(
+              labelText: 'Event Name',
+              contentPadding: EdgeInsets.all(20.0),
+            ),
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter event name';
@@ -29,16 +30,18 @@ class _CreateEventFormState extends State<CreateEventForm> {
             },
           ),
           Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    'Price Range',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 18.0,
-                    ),
-                  ))),
+            alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: const Text(
+                'Price Range',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ),
           Slider(
             value: price,
             onChanged: (newPrice) {
@@ -58,7 +61,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
                 Navigator.pop(context);
               }
             },
-            child: Text(
+            child: const Text(
               'Create Event',
               style: TextStyle(
                 color: Colors.white,

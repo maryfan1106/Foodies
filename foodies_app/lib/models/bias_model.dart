@@ -1,11 +1,13 @@
+import 'package:meta/meta.dart';
+
 class Bias {
   final int cid;
   final String description;
   final double bias;
 
-  Bias({
-    this.cid,
-    this.description,
+  const Bias({
+    @required this.cid,
+    @required this.description,
     this.bias,
   });
 

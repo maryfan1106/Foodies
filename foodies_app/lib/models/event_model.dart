@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class Event {
   final int eid;
   final String name;
@@ -5,12 +7,12 @@ class Event {
   final int budget;
   final int attendees;
 
-  Event({
-    this.eid,
-    this.name,
-    this.timestamp,
-    this.budget,
-    this.attendees,
+  const Event({
+    @required this.eid,
+    @required this.name,
+    @required this.timestamp,
+    @required this.budget,
+    @required this.attendees,
   });
 
   factory Event.fromJson(Map<String, dynamic> parsedJson) {

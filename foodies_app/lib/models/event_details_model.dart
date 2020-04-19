@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class EventDetails {
   final int eid;
   final String name;
@@ -6,18 +8,18 @@ class EventDetails {
   final List<Attendee> attendees;
   final List<Restaurant> restaurants;
 
-  EventDetails({
-    this.eid,
-    this.name,
-    this.timestamp,
-    this.budget,
-    this.attendees,
-    this.restaurants,
+  const EventDetails({
+    @required this.eid,
+    @required this.name,
+    @required this.timestamp,
+    @required this.budget,
+    @required this.attendees,
+    @required this.restaurants,
   });
 
   factory EventDetails.fromJson(Map<String, dynamic> parsedJson) {
-    var listA = parsedJson['attendees'] as List;
-    var listR = parsedJson['restaurants'] as List;
+    List listA = parsedJson['attendees'] as List;
+    List listR = parsedJson['restaurants'] as List;
     List<Attendee> attendeesList =
         listA.map<Attendee>((i) => Attendee.fromJson(i)).toList();
     List<Restaurant> restaurantList =
@@ -40,9 +42,9 @@ class Attendee {
   final String email;
 
   Attendee({
-    this.role,
-    this.name,
-    this.email,
+    @required this.role,
+    @required this.name,
+    @required this.email,
   });
 
   factory Attendee.fromJson(Map<String, dynamic> parsedJson) {
@@ -63,12 +65,12 @@ class Restaurant {
   final int votes;
 
   Restaurant({
-    this.camis,
-    this.name,
-    this.address,
-    this.phone,
-    this.description,
-    this.votes,
+    @required this.camis,
+    @required this.name,
+    @required this.address,
+    @required this.phone,
+    @required this.description,
+    @required this.votes,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> parsedJson) {

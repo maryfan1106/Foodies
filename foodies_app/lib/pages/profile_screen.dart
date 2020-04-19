@@ -16,7 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<Bias> _biases;
 
   getEventDetails() async {
-    sharedPreferences = await SharedPreferences.getInstance();
+    final sharedPreferences = await SharedPreferences.getInstance();
     final client = http.Client();
     final request = new http.Request(
       'GET',
@@ -29,8 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     request.followRedirects = false;
     final response = await client.send(request);
     final respStr = await response.stream.bytesToString();
-    var jsonResponse = jsonDecode(respStr);
-    List<Bias> biases =
+    final jsonResponse = jsonDecode(respStr);
+    final List<Bias> biases =
         jsonResponse.map<Bias>((i) => Bias.fromJson(i)).toList();
     setState(() {
       _biases = biases;
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Profile',
           style: TextStyle(
             color: Colors.white,
@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.more_horiz),
+            icon: const Icon(Icons.more_horiz),
             iconSize: 30.0,
             color: Colors.white,
             onPressed: () {},

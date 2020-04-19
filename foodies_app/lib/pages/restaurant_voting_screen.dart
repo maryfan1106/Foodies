@@ -20,7 +20,7 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Recommended Restaurants',
           style: TextStyle(
             color: Colors.white,
@@ -83,7 +83,7 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
             height: 90.0,
             child: Center(
               child: RaisedButton(
-                child: Text(
+                child: const Text(
                   'Vote',
                 ),
                 onPressed: () {
