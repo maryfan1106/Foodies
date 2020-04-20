@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/models/event_details_model.dart';
+import 'package:foodiesapp/services/event_service.dart';
 
 class RestaurantVotingScreen extends StatefulWidget {
+  final int eid;
   final List<Restaurant> restaurants;
-
   RestaurantVotingScreen({
+    this.eid,
     this.restaurants,
   });
 
@@ -83,10 +85,12 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
             height: 90.0,
             child: Center(
               child: RaisedButton(
-                child: const Text(
-                  'Vote',
-                ),
-                onPressed: () {
+                child: const Text('Vote'),
+                onPressed: () async {
+                  await EventService().voteForRestaurant(
+                    widget.eid,
+                    _vote.camis,
+                  );
                   Navigator.pop(context);
                 },
               ),
