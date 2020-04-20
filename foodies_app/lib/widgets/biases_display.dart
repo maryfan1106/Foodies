@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodiesapp/models/bias_model.dart';
+import 'package:foodiesapp/services/user_service.dart';
 
 class BiasesDisplay extends StatefulWidget {
   final List<Bias> biases;
-
   BiasesDisplay({
     this.biases,
   });
@@ -13,7 +13,7 @@ class BiasesDisplay extends StatefulWidget {
 }
 
 class _BiasesDisplayState extends State<BiasesDisplay> {
-  List<double> values = List<double>();
+  List<int> values = List<int>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
           Bias bias = widget.biases[i];
-          values.add(0.0);
+          values.add(bias.bias == null ? 0 : bias.bias );
           return Card(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
@@ -44,15 +44,16 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
                   const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                   Center(
                     child: Slider(
-                      value: values[i],
+                      value: values[i].toDouble(),
                       divisions: 20,
                       min: -10.0,
                       max: 10.0,
                       label: "${values[i]}",
-                      onChanged: (newBias) => {
+                      onChanged: (newBias) async {
+                        await UserService().setBias(bias.cid, newBias.toInt());
                         setState(() {
-                          values[i] = newBias;
-                        })
+                          values[i] = newBias.toInt();
+                        });
                       },
                     ),
                   ),

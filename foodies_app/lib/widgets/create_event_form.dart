@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodiesapp/models/event_model.dart';
 import 'package:foodiesapp/widgets/add_attendees.dart';
 
 class CreateEventForm extends StatefulWidget {
@@ -7,9 +8,9 @@ class CreateEventForm extends StatefulWidget {
 }
 
 class _CreateEventFormState extends State<CreateEventForm> {
-  double price = 50;
   final _formKey = GlobalKey<FormState>();
-//  Event newEvent = Event(host: currentUser, eventRestaurants: []);
+  double price = 50;
+
   @override
   Widget build(BuildContext context) {
     return Form(

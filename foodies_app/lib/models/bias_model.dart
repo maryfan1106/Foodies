@@ -1,7 +1,7 @@
 class Bias {
   final int cid;
   final String description;
-  final double bias;
+  final int bias;
 
   Bias({
     this.cid,
