@@ -7,10 +7,9 @@ class CreateEventForm extends StatefulWidget {
 }
 
 class _CreateEventFormState extends State<CreateEventForm> {
-  double price = 50;
   final _formKey = GlobalKey<FormState>();
+  double price = 50;
 
-//  Event newEvent = Event(host: currentUser, eventRestaurants: []);
   @override
   Widget build(BuildContext context) {
     return Form(

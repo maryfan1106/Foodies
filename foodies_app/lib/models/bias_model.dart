@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 class Bias {
   final int cid;
   final String description;
-  final double bias;
+  final int bias;
 
   const Bias({
     @required this.cid,
