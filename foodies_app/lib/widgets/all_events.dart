@@ -27,9 +27,7 @@ class AllEvents extends StatelessWidget {
               MaterialPageRoute(
                   builder: (_) => EventScreen(name: event.name, eid: event.eid)
               )
-            ).then((_) {
-              // TODO: Re-render AllEvents Widgets
-            }),
+            ),
             child: Card(
               child: ListTile(
                 title: Center(child: Text(event.name)),

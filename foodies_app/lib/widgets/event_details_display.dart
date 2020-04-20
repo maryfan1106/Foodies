@@ -5,9 +5,10 @@ import 'package:foodiesapp/widgets/event_attendees.dart';
 
 class EventDetailsDisplay extends StatelessWidget {
   final EventDetails details;
-
+  final bool voted;
   EventDetailsDisplay({
     this.details,
+    this.voted
   });
 
   @override
@@ -16,10 +17,8 @@ class EventDetailsDisplay extends StatelessWidget {
       return CircularProgressIndicator();
     }
 
-    // TODO: host is becomes N/A after pop because it was removed
-    var host = details.attendees.firstWhere((i) => i.role == 0, orElse: () => Attendee(role: 0, name: 'N/A', email: 'N/A'));
-    List<Attendee> guests = details.attendees;
-    guests.removeWhere((i) => i.role == 0);
+    Attendee host = details.attendees.firstWhere((i) => i.role == 0);
+    List<Attendee> guests = details.attendees.where((i) => i.role == 1).toList();
 
     return Column(
       children: <Widget>[
@@ -33,14 +32,16 @@ class EventDetailsDisplay extends StatelessWidget {
         Container(
           height: 90.0,
           child: Center(
-              child: RaisedButton(
+              child: voted ? Text(
+                'Waiting for Result',
+                ) : RaisedButton(
                 child: Text(
                   'Vote for Restaurant',
                 ),
                 onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => RestaurantVotingScreen(restaurants: details.restaurants)),
+                      MaterialPageRoute(builder: (_) => RestaurantVotingScreen(eid: details.eid, restaurants: details.restaurants)),
                     );
                 },
               )

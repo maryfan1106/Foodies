@@ -14,8 +14,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   SharedPreferences sharedPreferences;
   final EventService _eventService = EventService();
-  List<Event> _attending = [];
-  List<Event> _organizing = [];
+  List<Event> _attending;
+  List<Event> _organizing;
 
   @override
   void initState() {
