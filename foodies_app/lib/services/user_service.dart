@@ -1,7 +1,8 @@
 import 'dart:convert';
+
 import 'package:foodiesapp/models/bias_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
   final String _baseUrl = 'http://localhost:3000';
@@ -10,8 +11,8 @@ class UserService {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final client = http.Client();
     try {
-      final request = new http.Request(
-          'GET', Uri.parse("$_baseUrl/categories"));
+      final request =
+          new http.Request('GET', Uri.parse("$_baseUrl/categories"));
       request.headers['Authorization'] =
           "Bearer " + sharedPreferences.getString("token");
       request.headers['Accept'] = "application/json";
@@ -20,7 +21,8 @@ class UserService {
       final response = await client.send(request);
       final responseStr = await response.stream.bytesToString();
       var jsonResponse = jsonDecode(responseStr);
-      List<Bias> biases = jsonResponse.map<Bias>((i) => Bias.fromJson(i)).toList();
+      List<Bias> biases =
+          jsonResponse.map<Bias>((i) => Bias.fromJson(i)).toList();
       return biases;
     } catch (e) {
       return [];
@@ -32,7 +34,8 @@ class UserService {
   Future<bool> setBias(int cid, int bias) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
-      var response = await http.post("$_baseUrl/categories/$cid", body: jsonEncode({"bias" : bias}),
+      var response = await http.put("$_baseUrl/categories/$cid",
+          body: jsonEncode({"bias": bias}),
           headers: {
             "Accept": "application/json",
             "Content-type": "application/json",
@@ -43,5 +46,4 @@ class UserService {
       return false;
     }
   }
-
 }

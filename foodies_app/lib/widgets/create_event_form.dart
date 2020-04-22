@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodiesapp/models/user_model.dart';
+import 'package:foodiesapp/services/create_event_service.dart';
 import 'package:foodiesapp/widgets/add_attendees.dart';
 
 class CreateEventForm extends StatefulWidget {
@@ -8,7 +10,17 @@ class CreateEventForm extends StatefulWidget {
 
 class _CreateEventFormState extends State<CreateEventForm> {
   final _formKey = GlobalKey<FormState>();
-  double price = 50;
+  String _name;
+  int _budget = 2;
+  List<User> _attendees = [];
+
+  addNewAttendee(User attendee) {
+    List<User> attendees = _attendees;
+    attendees.add(attendee);
+    setState(() {
+      _attendees = attendees;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +37,9 @@ class _CreateEventFormState extends State<CreateEventForm> {
               if (value.isEmpty) {
                 return 'Please enter event name';
               }
+              setState(() {
+                _name = value;
+              });
               return null;
             },
           ),
@@ -42,21 +57,26 @@ class _CreateEventFormState extends State<CreateEventForm> {
             ),
           ),
           Slider(
-            value: price,
+            value: _budget.toDouble(),
+            divisions: 3,
+            min: 1,
+            max: 3,
+            label: _budget.toString(),
             onChanged: (newPrice) {
-              setState(() => price = newPrice);
+              setState(() => _budget = newPrice.toInt());
             },
-            divisions: 4,
-            min: 0,
-            max: 100,
           ),
-          AddAttendees(),
+          AddAttendees(attendees: _attendees, addNewAttendee: addNewAttendee),
           RaisedButton(
             color: Colors.blue,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                //TODO: pass newEvent back
+            onPressed: () async {
+              dynamic result = await CreateEventService()
+                  .createEvent(_name, _budget, _attendees);
+              if (result == null) {
+                print("Error with creating event");
+                Navigator.pop(context);
+              } else {
+                print("Created event");
                 Navigator.pop(context);
               }
             },
@@ -72,8 +92,3 @@ class _CreateEventFormState extends State<CreateEventForm> {
     );
   }
 }
-
-//final String name;
-//final User host;
-//final List<User> eventMembers;
-//final List<Restaurant> eventRestaurants;
