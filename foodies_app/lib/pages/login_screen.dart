@@ -61,10 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           }
         },
-        child: const Text(
-          "Login",
-          textAlign: TextAlign.center,
-        ),
+        child: const Text("Login", textAlign: TextAlign.center),
       ),
     );
 
