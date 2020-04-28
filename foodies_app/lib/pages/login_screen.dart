@@ -53,6 +53,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 35.0),
                   _loginButton,
                   const SizedBox(height: 15.0),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/register', (_) => false);
+                    },
+                    child: const Text(
+                      "Don't have an account? Sign Up",
+                      style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                    ),
+                  ),
                 ],
               ),
             ),
