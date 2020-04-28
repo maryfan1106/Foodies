@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' show DotEnv;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/home_screen.dart' show HomeScreen;
 import 'pages/login_screen.dart' show LoginScreen;
@@ -11,6 +12,19 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  Widget _routeHome() {
+    return FutureBuilder(
+      future: SharedPreferences.getInstance(),
+      builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snap) {
+        if (snap.hasData) {
+          return snap.data.containsKey('token') ? HomeScreen() : LoginScreen();
+        }
+
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +34,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Colors.deepPurpleAccent,
       ),
-      initialRoute: '/home',
+      home: _routeHome(),
       routes: {
         '/register': (_) => RegisterScreen(),
         '/login': (_) => LoginScreen(),
