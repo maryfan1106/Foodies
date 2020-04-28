@@ -10,7 +10,7 @@ void _setToken(String token) async {
   sp.setString('token', token);
 }
 
-Future<bool> logIn(String email, String password) async {
+Future<bool> logIn(String email, String password, Function err) async {
   final String basic = 'Basic ' + base64Encode(utf8.encode('$email:$password'));
   final FoodiesData fdata = await foodiesPost(
     '/users/login',
@@ -22,6 +22,9 @@ Future<bool> logIn(String email, String password) async {
       final String token = fdata.body['token'];
       _setToken(token);
       return true;
+    case HttpStatus.unauthorized:
+      err(fdata.body['err']);
+      return false;
   }
 
   return false;
