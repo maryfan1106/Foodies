@@ -2,7 +2,8 @@ import 'dart:convert' show jsonDecode, jsonEncode;
 import 'dart:io' show HttpHeaders;
 
 import 'package:flutter_dotenv/flutter_dotenv.dart' show DotEnv;
-import 'package:http/http.dart' show Client, Response;
+import 'package:http/http.dart'
+    show Client, Request, Response, StreamedResponse;
 import 'package:meta/meta.dart' show protected, required;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,4 +38,19 @@ Future<FoodiesData> foodiesPost(String endpoint,
   );
 
   return FoodiesData(status: res.statusCode, body: jsonDecode(res.body));
+}
+
+Future<dynamic> foodiesGet(String endpoint) async {
+  final Request req = new Request(
+    'GET',
+    Uri.parse(DotEnv().env['API_BASEURL'] + endpoint),
+  )
+    ..followRedirects = false
+    ..headers.addAll({
+      HttpHeaders.authorizationHeader: 'Bearer ${await _getToken()}',
+    });
+
+  final StreamedResponse res = await _client.send(req);
+  final String body = await res.stream.bytesToString();
+  return FoodiesData(status: res.statusCode, body: jsonDecode(body));
 }
