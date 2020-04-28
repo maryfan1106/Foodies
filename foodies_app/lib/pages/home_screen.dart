@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/eventbrief.dart' show EventBrief;
+import '../services/events.dart' show getEventsAttending, getEventsOrganizing;
+import '../widgets/events.dart' show Events;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
 
@@ -10,6 +14,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  final Map<String, Future<List<EventBrief>>> _events = {
+    'Attending': getEventsAttending(),
+    'Organizing': getEventsOrganizing(),
+  };
+
   static const List<Tab> _tabs = [
     Tab(text: 'Attending'),
     Tab(text: 'Organizing'),
@@ -17,8 +26,22 @@ class _HomeScreenState extends State<HomeScreen>
 
   TabController _tabController;
 
-  static Widget _makeTab() {
-    return const Center(child: CircularProgressIndicator());
+  static Widget _makeTab(String text, Future<List<EventBrief>> future) {
+    return FutureBuilder(
+      future: future,
+      builder:
+          (BuildContext context, AsyncSnapshot<List<EventBrief>> snapshot) {
+        if (snapshot.hasData) {
+          return Events(events: snapshot.data);
+        }
+
+        if (snapshot.hasError) {
+          print(snapshot.error);
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 
   void logOut(BuildContext context) async {
@@ -72,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen>
       body: TabBarView(
         controller: _tabController,
         children: _tabs.map((tab) {
-          return _makeTab();
+          String label = tab.text;
+          return _makeTab(label, _events[label]);
         }).toList(),
       ),
     );
