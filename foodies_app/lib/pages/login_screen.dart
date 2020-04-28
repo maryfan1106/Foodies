@@ -15,11 +15,26 @@ class _LoginScreenState extends State<LoginScreen> {
       CircTextInput(hintText: 'Password', hidden: true);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _error;
 
-  void _processLogin(BuildContext context) {
+  void _setError(String err) => setState(() => _error = err);
+
+  void _processLogin(BuildContext context) async {
     if (_formKey.currentState.validate()) {
-      logIn(_emailField.text, _pwField.text);
+      if (await logIn(_emailField.text, _pwField.text, _setError)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          "/home",
+          (Route<dynamic> route) => false,
+        );
+      }
     }
+  }
+
+  Widget _errorText() {
+    return Text(
+      _error,
+      style: const TextStyle(color: Colors.red, fontSize: 14.0),
+    );
   }
 
   @override
@@ -46,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: <Widget>[
                   const FoodiesLogo(),
+                  if (_error != null) _errorText(),
                   const SizedBox(height: 45.0),
                   _emailField,
                   const SizedBox(height: 25.0),
