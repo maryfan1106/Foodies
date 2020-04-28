@@ -15,8 +15,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   static final CircTextInput _pwField =
       CircTextInput(hintText: 'Password', hidden: true);
 
-  void _processSignup(BuildContext context) {
-    signUp(_nameField.text, _emailField.text, _pwField.text);
+  void _processSignup(BuildContext context) async {
+    final bool success = await signUp(
+      _nameField.text,
+      _emailField.text,
+      _pwField.text,
+    );
+
+    if (success) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/home',
+        (Route<dynamic> route) => false,
+      );
+    }
   }
 
   @override
