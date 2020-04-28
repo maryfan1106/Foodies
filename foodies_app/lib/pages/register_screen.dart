@@ -50,6 +50,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 35.0),
                 _registerButton,
                 const SizedBox(height: 15.0),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (_) => false);
+                  },
+                  child: const Text(
+                    'Already have an account? Log In',
+                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                  ),
+                ),
               ],
             ),
           ),
