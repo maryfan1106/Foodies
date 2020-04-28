@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../services/auth.dart' show logIn;
 import '../widgets/circ_textinput.dart' show CircTextInput;
 import '../widgets/logo.dart' show FoodiesLogo;
 
@@ -16,7 +17,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _processLogin(BuildContext context) {
-    // TODO: actually log in
+    if (_formKey.currentState.validate()) {
+      logIn(_emailField.text, _pwField.text);
+    }
   }
 
   @override
