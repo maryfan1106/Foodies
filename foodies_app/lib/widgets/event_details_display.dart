@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/eventdetail.dart' show EventDetail;
 import '../pages/restaurant_voting_screen.dart' show RestaurantVotingScreen;
+import '../services/votes.dart' show getVote;
 import 'event_attendees.dart' show EventAttendees;
 
 class EventDetailsDisplay extends StatelessWidget {
@@ -11,18 +12,34 @@ class EventDetailsDisplay extends StatelessWidget {
     @required this.details,
   });
 
-  Widget _voteStatus(BuildContext context) {
-    return RaisedButton(
-      child: Text('Vote for Restaurant'),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => RestaurantVotingScreen(
-              restaurants: details.restaurants,
-            ),
-          ),
-        );
+  Widget _voteStatus() {
+    return FutureBuilder(
+      future: getVote(details.eid),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        Widget body;
+
+        if (snapshot.hasData) {
+          if (snapshot.data) {
+            body = const Text('Waiting for Result');
+          } else {
+            body = RaisedButton(
+              child: Text('Vote for Restaurant'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RestaurantVotingScreen(
+                      restaurants: details.restaurants,
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        } else {
+          body = const CircularProgressIndicator();
+        }
+        return Container(height: 90, child: Center(child: body));
       },
     );
   }
@@ -40,7 +57,7 @@ class EventDetailsDisplay extends StatelessWidget {
         EventAttendees(attendees: details.guests),
         Container(
           height: 90.0,
-          child: Center(child: _voteStatus(context)),
+          child: Center(child: _voteStatus()),
         ),
       ],
     );
