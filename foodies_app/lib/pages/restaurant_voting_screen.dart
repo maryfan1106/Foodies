@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../models/restaurant.dart' show Restaurant;
+import '../services/votes.dart' show voteForRestaurant;
 import '../widgets/restaurant_card.dart' show RestaurantCard;
 
 class RestaurantVotingScreen extends StatefulWidget {
+  final int eid;
   final List<Restaurant> restaurants;
 
   const RestaurantVotingScreen({
+    @required this.eid,
     @required this.restaurants,
   });
 
@@ -50,7 +53,8 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
             child: Center(
               child: RaisedButton(
                 child: Text('Vote'),
-                onPressed: () {
+                onPressed: () async {
+                  await voteForRestaurant(widget.eid, _vote.camis);
                   Navigator.pop(context);
                 },
               ),

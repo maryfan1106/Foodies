@@ -29,6 +29,7 @@ class EventDetailsDisplay extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => RestaurantVotingScreen(
+                      eid: details.eid,
                       restaurants: details.restaurants,
                     ),
                   ),
