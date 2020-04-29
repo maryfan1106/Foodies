@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen>
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () {
-              // TODO: Navigate to ProfilePage
+              Navigator.pushNamed(context, '/profile');
             },
           ),
         ],
