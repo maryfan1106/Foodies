@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/home_screen.dart' show HomeScreen;
 import 'pages/login_screen.dart' show LoginScreen;
+import "pages/profile_screen.dart" show ProfileScreen;
 import 'pages/register_screen.dart' show RegisterScreen;
 
 void main() async {
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/register': (_) => RegisterScreen(),
         '/login': (_) => LoginScreen(),
         '/home': (_) => HomeScreen(),
+        '/profile': (_) => ProfileScreen(),
       },
     );
   }
