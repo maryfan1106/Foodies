@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/eventdetail.dart' show EventDetail;
 import '../pages/restaurant_voting_screen.dart' show RestaurantVotingScreen;
+import '../services/locale.dart' show formatTimestamp;
 import '../services/votes.dart' show getVote;
 import 'event_attendees.dart' show EventAttendees;
 
@@ -52,7 +53,9 @@ class EventDetailsDisplay extends StatelessWidget {
         Card(
           child: ListTile(
             title: Center(child: Text('Hosted by: ' + details.host.name)),
-            subtitle: Center(child: Text(details.timestamp.toString())),
+            subtitle: Center(
+              child: Text(formatTimestamp(details.timestamp)),
+            ),
           ),
         ),
         EventAttendees(attendees: details.guests),
