@@ -21,7 +21,7 @@ class EventBrief {
       name: parsedJson['name'],
       timestamp: DateTime.parse(parsedJson['timestamp']),
       budget: parsedJson['budget'],
-      attendees: parsedJson['attendees'],
+      attendees: parsedJson['numAttending'],
     );
   }
 }

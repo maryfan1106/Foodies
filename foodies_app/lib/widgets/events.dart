@@ -25,9 +25,51 @@ class Events extends StatelessWidget {
             ),
           ),
           child: Card(
-            child: ListTile(
-              title: Center(child: Text(event.name)),
-              subtitle: Center(child: Text(event.timestamp.toString())),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+              child: Column(
+                children: <Widget>[
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+                  Center(
+                    child: Text(
+                      event.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+                  Center(
+                    child: Text(
+                      event.attendees.toString() + " guests attending",
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+                  Center(
+                    child: Text(
+                      event.timestamp.month.toString() +
+                          "/" +
+                          event.timestamp.day.toString() +
+                          "/" +
+                          event.timestamp.year.toString() +
+                          " " +
+                          event.timestamp.hour.toString() +
+                          ":" +
+                          event.timestamp.minute.toString(),
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+                  Center(
+                    child: Text(
+                      "\$" * event.budget,
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

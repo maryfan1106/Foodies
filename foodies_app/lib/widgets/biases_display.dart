@@ -42,7 +42,7 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
                     divisions: 20,
                     min: -10.0,
                     max: 10.0,
-                    label: "${values[i]}",
+                    label: category.bias.toString(),
                     onChanged: (newBias) => {
                       // TODO: update state
                     },
