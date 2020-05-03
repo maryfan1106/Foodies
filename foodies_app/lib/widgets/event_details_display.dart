@@ -52,7 +52,19 @@ class EventDetailsDisplay extends StatelessWidget {
         Card(
           child: ListTile(
             title: Center(child: Text('Hosted by: ' + details.host.name)),
-            subtitle: Center(child: Text(details.timestamp.toString())),
+            subtitle: Center(
+              child: Text(
+                details.timestamp.month.toString() +
+                    "/" +
+                    details.timestamp.day.toString() +
+                    "/" +
+                    details.timestamp.year.toString() +
+                    " " +
+                    details.timestamp.hour.toString() +
+                    ":" +
+                    details.timestamp.minute.toString(),
+              ),
+            ),
           ),
         ),
         EventAttendees(attendees: details.guests),

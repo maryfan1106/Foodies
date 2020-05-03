@@ -9,11 +9,6 @@ class CreateEventScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Create Event',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-          ),
         ),
       ),
       body: CreateEventForm(),
