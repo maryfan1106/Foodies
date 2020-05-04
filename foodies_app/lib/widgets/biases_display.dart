@@ -30,6 +30,7 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
             padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
             child: Column(
               children: <Widget>[
+                const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
                 Center(
                   child: Text(
                     category.description,
@@ -57,7 +58,6 @@ class _BiasesDisplayState extends State<BiasesDisplay> {
                     },
                   ),
                 ),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
               ],
             ),
           ),

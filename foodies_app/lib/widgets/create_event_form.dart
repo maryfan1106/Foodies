@@ -92,6 +92,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
             ),
             AddAttendees(attendees: _attendees, addNewAttendee: addNewAttendee),
             RaisedButton(
+              color: Theme.of(context).accentColor,
               onPressed: () async {
                 bool posted = await createEvent(_name, _budget, _attendees);
                 if (posted) {
@@ -103,6 +104,9 @@ class _CreateEventFormState extends State<CreateEventForm> {
               },
               child: const Text(
                 'Create Event',
+                style: TextStyle(
+                  color: Colors.white,
+                )
               ),
             )
           ],
