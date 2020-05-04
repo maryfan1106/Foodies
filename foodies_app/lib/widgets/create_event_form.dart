@@ -79,6 +79,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
             ),
             AddGuests(guests: _guests),
             RaisedButton(
+              color: Theme.of(context).accentColor,
               child: const Text('Create Event'),
               onPressed: processNewEvent,
             )
