@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math' as math;
 
 import '../models/eventbrief.dart' show EventBrief;
 import '../services/events.dart' show getEventsAttending, getEventsOrganizing;
@@ -68,7 +69,10 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.exit_to_app),
+          icon: Transform.rotate(
+            angle: math.pi,
+            child: const Icon(Icons.exit_to_app),
+          ),
           onPressed: () => logOut(context),
         ),
         title: const Text('Events'),

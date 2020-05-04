@@ -37,11 +37,6 @@ class _EventScreenState extends State<EventScreen> {
           appBar: AppBar(
             title: Text(
               widget.name,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
             ),
             actions: <Widget>[
               IconButton(
