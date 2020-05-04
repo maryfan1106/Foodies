@@ -54,3 +54,16 @@ Future<dynamic> foodiesGet(String endpoint) async {
   final String body = await res.stream.bytesToString();
   return FoodiesData(status: res.statusCode, body: jsonDecode(body));
 }
+
+Future<FoodiesData> foodiesPut(String endpoint, {Map data}) async {
+  final Response res = await _client.put(
+    DotEnv().env['API_BASEURL'] + endpoint,
+    body: jsonEncode(data),
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Bearer ${await _getToken()}',
+    },
+  );
+
+  return FoodiesData(status: res.statusCode);
+}
