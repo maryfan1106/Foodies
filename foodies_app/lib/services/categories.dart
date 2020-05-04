@@ -1,7 +1,7 @@
 import 'dart:io' show HttpStatus;
 
 import '../models/categorymap.dart' show CategoryMap;
-import 'foodiesapi.dart' show FoodiesData, foodiesGet;
+import 'foodiesapi.dart' show FoodiesData, foodiesGet, foodiesPut;
 
 Future<CategoryMap> getCategories() async {
   FoodiesData fdata = await foodiesGet('/categories');
@@ -13,4 +13,15 @@ Future<CategoryMap> getCategories() async {
   }
 
   return null;
+}
+
+Future<bool> setBias(int cid, int bias) async {
+  final FoodiesData fdata =
+      await foodiesPut('/categories/$cid', data: {'bias': bias});
+
+  switch (fdata.status) {
+    case HttpStatus.noContent:
+      return true;
+  }
+  return false;
 }
