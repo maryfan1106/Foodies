@@ -68,7 +68,7 @@ BEGIN TRANSACTION;
         name TEXT NOT NULL,
         boro TEXT NOT NULL,
         address TEXT NOT NULL,
-        phone INTEGER NOT NULL,
+        phone INTEGER,
         lat REAL NOT NULL,
         long REAL NOT NULL,
         cid INTEGER NOT NULL REFERENCES categories(cid)
@@ -80,7 +80,10 @@ BEGIN TRANSACTION;
         ins.[DBA],
         SUBSTR(ins.[BORO], 1, 1),
         ins.[BUILDING] || ' ' || [STREET] || ' ' || [ZIPCODE],
-        ins.[PHONE],
+        CASE
+            WHEN phone NOT GLOB '*[0-9]*' OR LENGTH(phone) < 10 THEN NULL
+            ELSE phone
+        END,
         ins.[Latitude],
         ins.[Longitude],
         cat.cid
