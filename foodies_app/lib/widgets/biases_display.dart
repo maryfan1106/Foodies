@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../models/category.dart' show Category;
+import '../models/categorymap.dart' show CategoryMap;
 
 class BiasesDisplay extends StatelessWidget {
-  final List<Category> categories;
+  final CategoryMap categories;
+  final Function(int, int) updateBias;
 
   const BiasesDisplay({
     @required this.categories,
+    @required this.updateBias,
   });
 
   @override
@@ -37,9 +40,7 @@ class BiasesDisplay extends StatelessWidget {
                     divisions: 20,
                     min: -10.0,
                     max: 10.0,
-                    onChanged: (newBias) => {
-                      // TODO: update state
-                    },
+                    onChanged: (val) => updateBias(category.cid, val.toInt()),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
