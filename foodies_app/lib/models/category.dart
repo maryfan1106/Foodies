@@ -3,9 +3,9 @@ import 'package:meta/meta.dart' show required;
 class Category {
   final int cid;
   final String description;
-  final int bias;
+  int bias;
 
-  const Category({
+  Category({
     @required this.cid,
     @required this.description,
     @required this.bias,
