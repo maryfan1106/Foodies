@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/category.dart' show Category;
+import '../models/categorymap.dart' show CategoryMap;
 import '../services/categories.dart' show getCategories;
 import '../widgets/biases_display.dart' show BiasesDisplay;
 
@@ -10,14 +10,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  CategoryMap _categories;
+
+  void _updateBias(int k, int v) => setState(() => _categories[k] = v);
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: getCategories(),
-      builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<CategoryMap> snapshot) {
         Widget body;
         if (snapshot.hasData) {
-          body = BiasesDisplay(categories: snapshot.data);
+          body = BiasesDisplay(
+            categories: _categories ??= snapshot.data,
+            updateBias: _updateBias,
+          );
         } else {
           body = const Center(child: CircularProgressIndicator());
         }
