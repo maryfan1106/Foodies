@@ -4,6 +4,7 @@ class CircTextInput extends StatefulWidget {
   static const EdgeInsets padding = EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0);
   static final OutlineInputBorder _border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(32.0),
+    borderSide: const BorderSide(color: Color(0xffEFECE7)),
   );
 
   final String hintText;

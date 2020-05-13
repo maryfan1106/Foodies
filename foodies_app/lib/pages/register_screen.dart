@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../services/auth.dart' show signUp;
 import '../widgets/circ_textinput.dart' show CircTextInput;
-import '../widgets/logo.dart' show FoodiesLogo;
+import '../widgets/logo.dart' show FoodiesLogo, boxDecoration;
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final Material _registerButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: const Color(0xff01A0C7),
+      color: const Color(0xffefece7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: CircTextInput.padding,
@@ -45,33 +45,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(36, 54, 36, 36),
-            child: Column(
-              children: <Widget>[
-                const FoodiesLogo(),
-                const SizedBox(height: 45.0),
-                _nameField,
-                const SizedBox(height: 25.0),
-                _emailField,
-                const SizedBox(height: 25.0),
-                _pwField,
-                const SizedBox(height: 35.0),
-                _registerButton,
-                const SizedBox(height: 15.0),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (_) => false);
-                  },
-                  child: const Text(
-                    'Already have an account? Log In',
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+      body: Container(
+        decoration: boxDecoration,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(36, 54, 36, 36),
+              child: Column(
+                children: <Widget>[
+                  const FoodiesLogo(),
+                  const SizedBox(height: 45.0),
+                  _nameField,
+                  const SizedBox(height: 25.0),
+                  _emailField,
+                  const SizedBox(height: 25.0),
+                  _pwField,
+                  const SizedBox(height: 35.0),
+                  _registerButton,
+                  const SizedBox(height: 15.0),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (_) => false);
+                    },
+                    child: const Text(
+                      'Already have an account? Log In',
+                      style: TextStyle(color: Colors.black, fontSize: 14.0),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
