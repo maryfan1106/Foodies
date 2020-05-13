@@ -32,15 +32,47 @@ const ROLES = Object.freeze({
 
 async function generateRestaurants(eid) {
   const db = await getDbInstance();
-  // TODO: do something with biases, time, and location
+  // TODO: do something with prices and location
 
-  return db.run(SQL`INSERT INTO suggestions (eid, camis)
-                    SELECT      ${eid}, camis
-                    FROM        restaurants
-                    INNER JOIN  prices    USING(camis)
-                    INNER JOIN  openhours USING(camis)
-                    ORDER BY    RANDOM()
-                    LIMIT       5`);
+  const { timestamp, budget } = await db.get(SQL`SELECT timestamp, budget
+                                                 FROM   events
+                                                 WHERE  eid = ${eid}`);
+
+  const dateobj = new Date(timestamp);
+  const dayofweek = dateobj.getDay();
+  const time = dateobj.getHours() * 100 + dateobj.getMinutes(); // 2359
+
+  /* RANDOM() returns a value between -2^63 and 2^63 - 1
+   * Since we divide this by "div", a smaller div produces more jitter.
+   */
+  const div = 2 ** 52;
+
+  const query = SQL`INSERT INTO suggestions (eid, camis)
+                    SELECT      ${eid}, r.camis
+                    FROM        restaurants AS r
+                    INNER JOIN  (SELECT     cid, AVG(IFNULL(bias, 0)) AS cscore
+                                 FROM       attendees
+                                 CROSS JOIN categories
+                                 LEFT  JOIN preferences USING (uid, cid)
+                                 WHERE      eid = ${eid}
+                                 GROUP BY   cid
+                                )         USING(cid)
+                    INNER JOIN  prices      AS p  ON r.camis   = p.camis
+                                                 AND price     = ${budget}
+                    INNER JOIN  openhours   AS o  ON r.camis   = o.camis
+                                                 AND dayofweek = ${dayofweek}
+                    GROUP BY    o.camis
+                    HAVING      (    MAX(open) <  MIN(close)
+                                 AND ${time} BETWEEN MAX(open) AND MIN(close)
+                                )
+                        OR      (    MAX(open) >  MIN(close)
+                                 AND MAX(open) <= ${time}
+                                )
+                        OR      MAX(open) = MIN(close)
+                    ORDER BY    (cscore + RANDOM() / CAST(${div} AS REAL)) DESC
+                    LIMIT       5`;
+
+  return db.run(query);
 }
 
 export async function insertEvent(uid, name, timestamp, budget, guests) {

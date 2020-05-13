@@ -5,7 +5,6 @@ import 'dart:math' as math;
 import '../models/eventbrief.dart' show EventBrief;
 import '../services/events.dart' show getEventsAttending, getEventsOrganizing;
 import '../widgets/events.dart' show Events;
-import 'create_event_screen.dart' show CreateEventScreen;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);

@@ -35,9 +35,7 @@ class _EventScreenState extends State<EventScreen> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              widget.name,
-            ),
+            title: Text(widget.name),
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.more_horiz),

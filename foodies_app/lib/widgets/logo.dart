@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class FoodiesLogo extends StatelessWidget {
   const FoodiesLogo();
 
