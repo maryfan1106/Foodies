@@ -1,3 +1,6 @@
 # data files
 *.sqlite3
 *.tsv
+
+# MacOS
+.DS_Store

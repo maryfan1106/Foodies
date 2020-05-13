@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../services/auth.dart' show logIn;
 import '../widgets/circ_textinput.dart' show CircTextInput;
-import '../widgets/logo.dart' show FoodiesLogo;
+import '../widgets/logo.dart' show FoodiesLogo, boxDecoration;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final Material _loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: const Color(0xff01A0C7),
+      color: const Color(0xffefece7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: CircTextInput.padding,
@@ -52,34 +52,37 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(36, 54, 36, 36),
-              child: Column(
-                children: <Widget>[
-                  const FoodiesLogo(),
-                  if (_error != null) _errorText(),
-                  const SizedBox(height: 45.0),
-                  _emailField,
-                  const SizedBox(height: 25.0),
-                  _pwField,
-                  const SizedBox(height: 35.0),
-                  _loginButton,
-                  const SizedBox(height: 15.0),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/register', (_) => false);
-                    },
-                    child: const Text(
-                      "Don't have an account? Sign Up",
-                      style: TextStyle(color: Colors.grey, fontSize: 14.0),
+      body: Container(
+        decoration: boxDecoration,
+        child: Form(
+          key: _formKey,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(36, 54, 36, 36),
+                child: Column(
+                  children: <Widget>[
+                    const FoodiesLogo(),
+                    if (_error != null) _errorText(),
+                    const SizedBox(height: 45.0),
+                    _emailField,
+                    const SizedBox(height: 25.0),
+                    _pwField,
+                    const SizedBox(height: 35.0),
+                    _loginButton,
+                    const SizedBox(height: 15.0),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/register', (_) => false);
+                      },
+                      child: const Text(
+                        "Don't have an account? Sign Up",
+                        style: TextStyle(color: Colors.black, fontSize: 14.0),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
