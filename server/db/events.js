@@ -33,14 +33,26 @@ const ROLES = Object.freeze({
 
 async function generateRestaurants(eid) {
   const db = await getDbInstance();
-  // TODO: do something with biases, prices, time, and location
+  // TODO: do something with prices, time, and location
+
+  /* RANDOM() returns a value between -2^63 and 2^63 - 1
+   * Since we divide this by "div", a smaller div produces more jitter.
+   */
+  const div = 2 ** 52;
 
   const query = SQL`INSERT INTO suggestions (eid, camis)
                     SELECT      ${eid}, camis
                     FROM        restaurants
+                    INNER JOIN  (SELECT     cid, AVG(IFNULL(bias, 0)) AS cscore
+                                 FROM       attendees
+                                 CROSS JOIN categories
+                                 LEFT  JOIN preferences USING (uid, cid)
+                                 WHERE      eid = ${eid}
+                                 GROUP BY   cid
+                                )         USING(cid)
                     INNER JOIN  prices    USING(camis)
                     INNER JOIN  openhours USING(camis)
-                    ORDER BY    RANDOM()
+                    ORDER BY    (cscore + RANDOM() / CAST(${div} AS REAL)) DESC
                     LIMIT       5`;
 
   return db.run(query);
