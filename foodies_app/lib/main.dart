@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       title: 'Foodies',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: const Color(0xFF3799D4),
         accentColor: Colors.deepPurpleAccent,
       ),
       home: _routeHome(),
