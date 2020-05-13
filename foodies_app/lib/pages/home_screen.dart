@@ -69,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3799D4),
         leading: IconButton(
           icon: Transform.rotate(
             angle: math.pi,

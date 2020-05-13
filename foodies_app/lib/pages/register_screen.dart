@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final Material _registerButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: const Color(0xff01A0C7),
+      color: const Color(0xffEFECE7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: CircTextInput.padding,
@@ -45,7 +45,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     return Scaffold(
-      body: Center(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.8,0.0),
+            colors: [const Color(0xFF3799D4), const Color(0xFF81D4FA)],
+            //tileMode: TileMode.repeated,
+          ),
+        ),
+      child: Center(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(36, 54, 36, 36),
@@ -68,13 +77,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                   child: const Text(
                     'Already have an account? Log In',
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                    style: TextStyle(color: Colors.black, fontSize: 14.0),
                   ),
                 ),
               ],
             ),
           ),
         ),
+      ),
       ),
     );
   }
