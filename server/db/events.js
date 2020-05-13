@@ -35,9 +35,9 @@ async function generateRestaurants(eid) {
   const db = await getDbInstance();
   // TODO: do something with prices and location
 
-  const timestamp = await db.get(SQL`SELECT timestamp
-                                     FROM   events
-                                     WHERE  eid = ${eid}`);
+  const { timestamp, budget } = await db.get(SQL`SELECT timestamp, budget
+                                                 FROM   events
+                                                 WHERE  eid = ${eid}`);
 
   const dateobj = new Date(timestamp);
   const dayofweek = dateobj.getDay();
@@ -49,7 +49,7 @@ async function generateRestaurants(eid) {
   const div = 2 ** 52;
 
   const query = SQL`INSERT INTO suggestions (eid, camis)
-                    SELECT      ${eid}, camis
+                    SELECT      ${eid}, r.camis
                     FROM        restaurants AS r
                     INNER JOIN  (SELECT     cid, AVG(IFNULL(bias, 0)) AS cscore
                                  FROM       attendees
@@ -58,7 +58,8 @@ async function generateRestaurants(eid) {
                                  WHERE      eid = ${eid}
                                  GROUP BY   cid
                                 )         USING(cid)
-                    INNER JOIN  prices    USING(camis)
+                    INNER JOIN  prices      AS p  ON r.camis   = p.camis
+                                                 AND price     = ${budget}
                     INNER JOIN  openhours   AS o  ON r.camis   = o.camis
                                                  AND dayofweek = ${dayofweek}
                     GROUP BY    o.camis
