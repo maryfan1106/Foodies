@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class FoodiesLogo extends StatelessWidget {
   const FoodiesLogo();
 
@@ -8,13 +9,15 @@ class FoodiesLogo extends StatelessWidget {
     child: Center(
       child: Text(
         'Foodies',
-        style: TextStyle(
-          color: Colors.blueGrey,
-          fontSize: 36.0,
+        textDirection: TextDirection.ltr,
+          style: TextStyle(
+          fontFamily: "lobster",
+          color: const Color(0xffEFECE7),
+          fontSize: 48.0,
           fontWeight: FontWeight.bold,
         ),
+        ),
       ),
-    ),
   );
 
   @override

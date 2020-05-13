@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/add_attendees.dart';
+import '../models/attendee.dart' show Attendee;
+import '../services/events.dart' show createEvent;
+import 'add_guests.dart' show AddGuests;
 
 class CreateEventForm extends StatefulWidget {
   @override
@@ -8,67 +10,85 @@ class CreateEventForm extends StatefulWidget {
 }
 
 class _CreateEventFormState extends State<CreateEventForm> {
-  double price = 50;
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final List<Attendee> _guests = [];
+  int _budget = 2;
 
-//  Event newEvent = Event(host: currentUser, eventRestaurants: []);
+  Widget _budgetButton(int budget) {
+    return RaisedButton(
+      color: _budget == budget ? Colors.green[300 * budget - 100] : null,
+      child: Text('\$' * budget),
+      onPressed: () => setState(() => _budget = budget),
+    );
+  }
+
+  void processNewEvent() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
+    String _name = _nameController.text;
+    if (await createEvent(_name, _budget, _guests)) {
+      print("successfully created event");
+      Navigator.pop(context);
+    } else {
+      print("failed to create event");
+    }
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    _nameController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        children: <Widget>[
-          TextFormField(
-            decoration: InputDecoration(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              decoration: const InputDecoration(
                 labelText: 'Event Name',
-                contentPadding: const EdgeInsets.all(20.0)),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter event name';
-              }
-              return null;
-            },
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: EdgeInsets.all(20.0),
-              child: Text(
-                'Price Range',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 18.0,
+                contentPadding: EdgeInsets.all(20.0),
+              ),
+              controller: _nameController,
+              validator: (value) {
+                return value.isEmpty ? 'Please enter an event name' : null;
+              },
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: const Text(
+                  'Price Range',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                  ),
                 ),
               ),
             ),
-          ),
-          Slider(
-            value: price,
-            onChanged: (newPrice) {
-              setState(() => price = newPrice);
-            },
-            divisions: 4,
-            min: 0,
-            max: 100,
-          ),
-          AddAttendees(),
-          RaisedButton(
-            color: Colors.blue,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // TODO: create the event
-                Navigator.pop(context);
-              }
-            },
-            child: const Text(
-              'Create Event',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+            ButtonBar(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _budgetButton(1),
+                _budgetButton(2),
+                _budgetButton(3),
+              ],
             ),
-          )
-        ],
+            AddGuests(guests: _guests),
+            RaisedButton(
+              color: Theme.of(context).accentColor,
+              child: const Text('Create Event'),
+              onPressed: processNewEvent,
+            )
+          ],
+        ),
       ),
     );
   }

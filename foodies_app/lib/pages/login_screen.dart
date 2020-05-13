@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final Material _loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: const Color(0xff01A0C7),
+      color: const Color(0xffEFECE7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: CircTextInput.padding,
@@ -52,7 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-      body: Form(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.8,0.0),
+            colors: [const Color(0xFF3799D4), const Color(0xFF81D4FA)],
+            //tileMode: TileMode.repeated,
+          ),
+        ),
+      
+      child: Form(
         key: _formKey,
         child: Center(
           child: SingleChildScrollView(
@@ -76,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text(
                       "Don't have an account? Sign Up",
-                      style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                      style: TextStyle(color: Colors.black, fontSize: 14.0),
                     ),
                   ),
                 ],
@@ -84,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

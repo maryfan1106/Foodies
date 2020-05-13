@@ -12,7 +12,7 @@ dependencies:
   flutter_dotenv: any
   http: any
   shared_preferences: any
-
+  google_fonts: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -21,3 +21,4 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - google_fonts/

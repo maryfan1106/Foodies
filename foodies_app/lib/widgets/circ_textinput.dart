@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class CircTextInput extends StatefulWidget {
   static const EdgeInsets padding = EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0);
   static final OutlineInputBorder _border =
-      OutlineInputBorder(borderRadius: BorderRadius.circular(32.0));
+      OutlineInputBorder(borderRadius: BorderRadius.circular(32.0), borderSide: BorderSide(
+        color: const Color(0xffEFECE7),
+      ));
 
   final String hintText;
   final bool hidden;

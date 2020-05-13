@@ -1,3 +1,4 @@
+import 'package:Foodies/services/locale.dart';
 import 'package:flutter/material.dart';
 
 import '../models/eventdetail.dart' show EventDetail;
@@ -52,7 +53,9 @@ class EventDetailsDisplay extends StatelessWidget {
         Card(
           child: ListTile(
             title: Center(child: Text('Hosted by: ' + details.host.name)),
-            subtitle: Center(child: Text(details.timestamp.toString())),
+            subtitle: Center(
+              child: Text(formatTimestamp(details.timestamp)),
+            ),
           ),
         ),
         EventAttendees(attendees: details.guests),
