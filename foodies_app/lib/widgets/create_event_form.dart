@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../models/attendee.dart' show Attendee;
 import '../services/events.dart' show createEvent;
+import '../services/locale.dart' show formatTimestamp;
 import 'add_guests.dart' show AddGuests;
 
 class CreateEventForm extends StatefulWidget {
@@ -13,6 +15,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final List<Attendee> _guests = [];
+  DateTime _dateTime = DateTime.now();
   int _budget = 2;
 
   Widget _budgetButton(int budget) {
@@ -54,8 +57,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
           children: <Widget>[
             TextFormField(
               decoration: const InputDecoration(
-                labelText: 'Event Name',
-                contentPadding: EdgeInsets.all(20.0),
+                hintText: "Event name",
+                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               ),
               controller: _nameController,
               validator: (value) {
@@ -78,6 +81,29 @@ class _CreateEventFormState extends State<CreateEventForm> {
             ButtonBar(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, _budgetButton).skip(1).toList(),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: const Text(
+                  'Date and Time',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            FlatButton(
+              onPressed: () {
+                DatePicker.showDateTimePicker(
+                  context,
+                  showTitleActions: true,
+                  onConfirm: (date) => setState(() => _dateTime = date),
+                );
+              },
+              child: Text(formatTimestamp(_dateTime)),
             ),
             AddGuests(guests: _guests),
             RaisedButton(
