@@ -54,7 +54,7 @@ class AddAttendeesState extends State<AddAttendees> {
           shrinkWrap: true,
           itemCount: widget.attendees.length,
           itemBuilder: (context, index) {
-            final String guest = widget.attendees[index].email;
+            final String guest = widget.attendees[index].name;
             return Card(
               child: ListTile(
                 title: Text(guest),
