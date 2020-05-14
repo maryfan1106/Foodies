@@ -1,0 +1,35 @@
+name: Build artifacts
+
+on: [push, pull_request, release]
+
+defaults:
+  run:
+    working-directory: foodies_app
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: actions/setup-java@v1.3.0
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1.3.2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - name: Build APKs
+        run: flutter build apk --tree-shake-icons --split-per-abi
+      - uses: actions/upload-artifact@v2
+        with:
+          path: foodies_app/build/app/outputs/apk/release/*.apk
+  ios:
+    runs-on: macos-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: subosito/flutter-action@v1.3.0
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter build ios
