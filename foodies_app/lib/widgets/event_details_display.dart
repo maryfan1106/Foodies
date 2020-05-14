@@ -6,16 +6,20 @@ import '../services/locale.dart' show formatTimestamp;
 import '../services/votes.dart' show getVote;
 import 'event_attendees.dart' show EventAttendees;
 
-class EventDetailsDisplay extends StatelessWidget {
+class EventDetailsDisplay extends StatefulWidget {
   final EventDetail details;
 
   const EventDetailsDisplay({
     @required this.details,
   });
 
+  _EventDetailsDisplayState createState() => new _EventDetailsDisplayState();
+}
+
+class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
   Widget _voteStatus() {
     return FutureBuilder(
-      future: getVote(details.eid),
+      future: getVote(widget.details.eid),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         Widget body;
 
@@ -24,17 +28,19 @@ class EventDetailsDisplay extends StatelessWidget {
             body = const Text('Waiting for Result');
           } else {
             body = RaisedButton(
-              child: Text('Vote for Restaurant'),
-              onPressed: () {
-                Navigator.push(
+              child: const Text('Vote for Restaurant'),
+              onPressed: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => RestaurantVotingScreen(
-                      eid: details.eid,
-                      restaurants: details.restaurants,
+                      eid: widget.details.eid,
+                      restaurants: widget.details.restaurants,
                     ),
                   ),
                 );
+
+                setState(() {});
               },
             );
           }
@@ -52,13 +58,15 @@ class EventDetailsDisplay extends StatelessWidget {
       children: <Widget>[
         Card(
           child: ListTile(
-            title: Center(child: Text('Hosted by: ' + details.host.name)),
+            title: Center(
+              child: Text('Hosted by: ' + widget.details.host.name),
+            ),
             subtitle: Center(
-              child: Text(formatTimestamp(details.timestamp)),
+              child: Text(formatTimestamp(widget.details.timestamp)),
             ),
           ),
         ),
-        EventAttendees(attendees: details.guests),
+        EventAttendees(attendees: widget.details.guests),
         Container(
           height: 90.0,
           child: Center(child: _voteStatus()),
