@@ -4,9 +4,11 @@ import { getDbInstance } from "./";
 export async function getEvent(eid) {
   const db = await getDbInstance();
   return Promise.all([
-    db.get(SQL`SELECT eid, name, timestamp, budget
-               FROM   events
-               WHERE  eid = ${eid}`),
+    db.get(SQL`SELECT     eid, name, timestamp, budget,
+                          COUNT(uid) > COUNT(camis) as canVote
+               FROM       attendees
+               INNER JOIN events USING(eid)
+               WHERE      eid = ${eid}`),
     db.all(SQL`SELECT     role, name, email
                FROM       attendees
                INNER JOIN users USING(uid)
