@@ -21,6 +21,11 @@ class _HomeScreenState extends State<HomeScreen>
     'Organizing': getEventsOrganizing(),
   };
 
+  void _refreshOrganizing() {
+    _events['Organizing'] = getEventsOrganizing();
+    setState(() {});
+  }
+
   static List<Tab> _tabs = [
     Tab(
       text: 'Attending',
@@ -99,8 +104,11 @@ class _HomeScreenState extends State<HomeScreen>
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         tooltip: 'Create new event',
-        onPressed: () {
-          Navigator.pushNamed(context, '/create');
+        onPressed: () async {
+          final needUpdate = await Navigator.pushNamed(context, '/create');
+          if (needUpdate ?? false) {
+            _refreshOrganizing();
+          }
         },
       ),
       body: TabBarView(
