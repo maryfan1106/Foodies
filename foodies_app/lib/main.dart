@@ -34,7 +34,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF3799D4),
-        accentColor: Colors.deepPurpleAccent,
+        accentColor: Theme.of(context).primaryColor,
+        chipTheme: ChipThemeData.fromDefaults(
+          primaryColor: Theme.of(context).accentColor,
+          secondaryColor: Colors.green,
+          labelStyle: const TextStyle(),
+        ),
+        sliderTheme: SliderThemeData(
+          activeTickMarkColor: Theme.of(context).accentColor,
+          inactiveTrackColor: Theme.of(context).cardColor,
+          activeTrackColor: Theme.of(context).accentColor,
+          thumbColor: Theme.of(context).accentColor,
+        ),
       ),
       home: _routeHome(),
       routes: {

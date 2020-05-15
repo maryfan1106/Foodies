@@ -57,8 +57,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
           children: <Widget>[
             TextFormField(
               decoration: const InputDecoration(
-                hintText: "Event name",
-                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                labelText: 'Event Name',
+                contentPadding: EdgeInsets.all(20.0),
               ),
               controller: _nameController,
               validator: (value) {
