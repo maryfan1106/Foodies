@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../models/attendee.dart' show Attendee;
 import '../models/eventdetail.dart' show EventDetail;
 import '../pages/restaurant_voting_screen.dart' show RestaurantVotingScreen;
 import '../services/locale.dart' show formatTimestamp;
 import '../services/votes.dart' show getVote;
+import '../widgets/person_tile.dart' show PersonTile;
 import 'event_attendees.dart' show EventAttendees;
 
 class EventDetailsDisplay extends StatefulWidget {
@@ -54,12 +56,19 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    Attendee _host = widget.details.host;
+
     return Column(
       children: <Widget>[
         Card(
           child: ListTile(
             title: Center(
-              child: Text('Hosted by: ' + widget.details.host.name),
+              child: Column(
+                children: <Widget>[
+                  const Text('Hosted by:'),
+                  PersonTile(name: _host.name)
+                ],
+              ),
             ),
             subtitle: Center(
               child: Text(formatTimestamp(widget.details.timestamp)),
