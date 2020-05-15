@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart' show required;
 
+import '../models/attendee.dart' show Attendee;
+
 class PersonTile extends StatelessWidget {
-  final String name;
+  final Attendee person;
+
   final String initials;
   final Image avatar;
   final Color bgColor;
 
   PersonTile({
-    @required this.name,
+    @required this.person,
     this.avatar,
-  })  : this.initials = _getInitials(name),
-        bgColor = _getColor(name);
+  })  : this.initials = _getInitials(person.name),
+        bgColor = _getColor(person.name);
 
   static String _getInitials(String s) {
     // only return up to the first two initials
@@ -24,11 +27,14 @@ class PersonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(name),
-      leading: CircleAvatar(
-        child: Text(initials),
-        backgroundColor: avatar ?? bgColor,
+    return Card(
+      child: ListTile(
+        title: Text(person.name),
+        subtitle: Text(person.email),
+        leading: CircleAvatar(
+          child: Text(initials),
+          backgroundColor: avatar ?? bgColor,
+        ),
       ),
     );
   }

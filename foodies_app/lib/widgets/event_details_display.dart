@@ -66,7 +66,7 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
               child: Column(
                 children: <Widget>[
                   const Text('Hosted by:'),
-                  PersonTile(name: _host.name)
+                  PersonTile(person: _host)
                 ],
               ),
             ),
