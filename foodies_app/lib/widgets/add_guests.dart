@@ -52,10 +52,8 @@ class AddGuestsState extends State<AddGuests> {
           itemCount: widget.guests.length,
           itemBuilder: (context, index) {
             final Attendee guest = widget.guests[index];
-            return Card(
-              child: PersonTile(
-                name: guest.name,
-              ),
+            return PersonTile(
+              person: guest,
             );
           },
         ),
