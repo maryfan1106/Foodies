@@ -105,10 +105,14 @@ Returns a short summary of all events the current user is attending.
 Get an event by its event ID.
 The description of a restaurant is its category.
 
-| Response      | Description                                                                                                                                                     |
-| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 302 Found     | Event exists: `{ eid, name, timestamp, budget, attendees [ { role, name, email }, ... ], restaurants [ { camis, name, address, phone, description, votes } ] }` |
-| 404 Not Found | Event does not exist.                                                                                                                                           |
+`canVote` is true if voting is open for anyone, and false otherwise.
+Consumers should still check if the user has voted to avoid issues
+(although attempting to vote multiple times would just overwrite the single vote).
+
+| Response      | Description                                                                                                                                                              |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 302 Found     | Event exists: `{ eid, name, timestamp, budget, canVote, attendees [ { role, name, email }, ... ], restaurants [ { camis, name, address, phone, description, votes } ] }` |
+| 404 Not Found | Event does not exist.                                                                                                                                                    |
 
 ### /events/:eid/vote
 
