@@ -35,5 +35,8 @@ export function createEvent(req, res) {
     .then(({ eid, invalid }) =>
       getEvent(eid).then((event) => res.status(201).json({ ...event, invalid }))
     )
-    .catch((err) => res.status(400).json({ err }));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ err });
+    });
 }
