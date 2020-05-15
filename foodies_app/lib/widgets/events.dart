@@ -20,50 +20,26 @@ class Events extends StatelessWidget {
       itemCount: events.length,
       itemBuilder: (BuildContext context, int index) {
         final EventBrief event = events[index];
-        return GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => EventScreen(name: event.name, eid: event.eid),
+        return Card(
+          child: InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => EventScreen(name: event.name, eid: event.eid),
+              ),
             ),
-          ),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-              child: Column(
-                children: <Widget>[
-                  _padding,
-                  Center(
-                    child: Text(
-                      event.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                  _padding,
-                  Center(
-                    child: Text(
-                      '${event.numAttending} guests attending',
-                      style: const TextStyle(fontSize: 12.0),
-                    ),
-                  ),
-                  _padding,
-                  Center(
-                    child: Text(
-                      formatTimestamp(event.timestamp),
-                      style: const TextStyle(fontSize: 12.0),
-                    ),
-                  ),
-                  _padding,
-                  Center(
-                    child: Text(
-                      '\$' * event.budget,
-                      style: const TextStyle(fontSize: 12.0),
-                    ),
-                  ),
-                ],
+            child: ListTile(
+              title: Text(event.name),
+              subtitle: Text(formatTimestamp(event.timestamp)),
+              leading: SizedBox(
+                width: 56.0,
+                child: Chip(
+                  label: Text('\$' * event.budget),
+                ),
+              ),
+              trailing: Chip(
+                label: Text(event.numAttending.toString()),
+                avatar: const Icon(Icons.people),
               ),
             ),
           ),
