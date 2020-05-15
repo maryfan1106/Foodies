@@ -21,9 +21,15 @@ class _HomeScreenState extends State<HomeScreen>
     'Organizing': getEventsOrganizing(),
   };
 
-  static const List<Tab> _tabs = [
-    Tab(text: 'Attending'),
-    Tab(text: 'Organizing'),
+  static List<Tab> _tabs = [
+    Tab(
+      text: 'Attending',
+      icon: Transform.rotate(
+        angle: math.pi,
+        child: const Icon(Icons.call_merge),
+      ),
+    ),
+    const Tab(text: 'Organizing', icon: Icon(Icons.call_split)),
   ];
 
   TabController _tabController;
