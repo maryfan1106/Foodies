@@ -16,10 +16,12 @@ class _CreateEventFormState extends State<CreateEventForm> {
   int _budget = 2;
 
   Widget _budgetButton(int budget) {
-    return RaisedButton(
-      color: _budget == budget ? Colors.green : null,
-      child: Text('\$' * budget),
-      onPressed: () => setState(() => _budget = budget),
+    return ChoiceChip(
+      selected: _budget == budget,
+      selectedColor: Colors.green,
+      labelStyle: const TextStyle(color: Colors.black),
+      label: Text('\$' * budget),
+      onSelected: (bool _) => setState(() => _budget = budget),
     );
   }
 

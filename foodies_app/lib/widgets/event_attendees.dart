@@ -17,7 +17,7 @@ class EventAttendees extends StatelessWidget {
       itemCount: attendees.length,
       itemBuilder: (BuildContext context, int index) {
         final Attendee attendee = attendees[index];
-        return PersonTile(name: attendee.name);
+        return PersonTile(person: attendee);
       },
     );
   }
