@@ -31,7 +31,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
     String _name = _nameController.text;
     if (await createEvent(_name, _budget, _guests)) {
       print("successfully created event");
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } else {
       print("failed to create event");
     }
