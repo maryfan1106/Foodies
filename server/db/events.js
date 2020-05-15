@@ -20,7 +20,8 @@ export async function getEvent(eid) {
                INNER JOIN restaurants AS r USING(camis)
                INNER JOIN categories  AS c USING(cid)
                WHERE      eid = ${eid}
-               GROUP BY   s.camis`),
+               GROUP BY   s.camis
+               ORDER BY   votes DESC`),
   ]).then(([event, attendees, restaurants]) => ({
     ...event,
     attendees,
