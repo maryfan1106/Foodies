@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/attendee.dart' show Attendee;
 import '../services/users.dart' show getUser;
+import '../widgets/person_tile.dart' show PersonTile;
 
 class AddGuests extends StatefulWidget {
   final List<Attendee> guests;
@@ -52,8 +53,8 @@ class AddGuestsState extends State<AddGuests> {
           itemBuilder: (context, index) {
             final Attendee guest = widget.guests[index];
             return Card(
-              child: ListTile(
-                title: Text(guest.email),
+              child: PersonTile(
+                name: guest.name,
               ),
             );
           },

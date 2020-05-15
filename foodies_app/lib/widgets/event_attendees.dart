@@ -1,3 +1,4 @@
+import 'package:Foodies/widgets/person_tile.dart' show PersonTile;
 import 'package:flutter/material.dart';
 
 import '../models/attendee.dart' show Attendee;
@@ -16,9 +17,7 @@ class EventAttendees extends StatelessWidget {
       itemCount: attendees.length,
       itemBuilder: (BuildContext context, int index) {
         final Attendee attendee = attendees[index];
-        return ListTile(
-          title: Center(child: Text(attendee.name)),
-        );
+        return PersonTile(name: attendee.name);
       },
     );
   }
