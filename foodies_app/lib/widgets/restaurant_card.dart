@@ -21,7 +21,7 @@ class _RestaurantCardState extends State<RestaurantCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: widget.selected ? Colors.lightBlueAccent : null,
+      color: widget.selected ? Theme.of(context).accentColor : null,
       child: InkWell(
         onTap: () => widget.setVote(widget.restaurant),
         child: ListTile(
