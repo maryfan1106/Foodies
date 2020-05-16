@@ -13,6 +13,18 @@ class BiasesDisplay extends StatelessWidget {
     @required this.updateBias,
   });
 
+  Icon _getBiasIcon(int bias) {
+    if (bias == 0) {
+      return const Icon(Icons.favorite_border, color: Colors.grey);
+    }
+
+    if (bias > 0) {
+      return Icon(Icons.favorite, color: Colors.pink[bias ~/ 2 * 100 + 100]);
+    }
+
+    return Icon(Icons.favorite, color: Colors.grey[-bias ~/ 2 * 100 + 300]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -20,35 +32,26 @@ class BiasesDisplay extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
         Category category = categories[i];
+        int bias = category.bias ?? 0;
         return Card(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-            child: Column(
-              children: <Widget>[
-                const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                Center(
-                  child: Text(
-                    category.description,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-                Center(
-                  child: Slider.adaptive(
-                    value: category.bias?.toDouble() ?? 0,
-                    divisions: 20,
-                    min: -10.0,
-                    max: 10.0,
-                    onChanged: (val) => updateBias(category.cid, val.toInt()),
-                    onChangeEnd: (newBias) async {
-                      await setBias(category.cid, newBias.toInt());
-                    },
-                  ),
-                ),
-              ],
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 16.0,
+            ),
+            title: Chip(
+              avatar: _getBiasIcon(bias),
+              label: Text(category.description),
+            ),
+            subtitle: Slider(
+              value: bias.toDouble(),
+              divisions: 20,
+              min: -10.0,
+              max: 10.0,
+              onChanged: (val) => updateBias(category.cid, val.toInt()),
+              onChangeEnd: (newBias) async {
+                await setBias(category.cid, newBias.toInt());
+              },
             ),
           ),
         );
