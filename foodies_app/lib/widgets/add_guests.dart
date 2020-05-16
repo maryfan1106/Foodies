@@ -52,8 +52,19 @@ class AddGuestsState extends State<AddGuests> {
           itemCount: widget.guests.length,
           itemBuilder: (context, index) {
             final Attendee guest = widget.guests[index];
-            return PersonTile(
-              person: guest,
+            return Dismissible(
+              key: Key(guest.email),
+              direction: DismissDirection.startToEnd,
+              background: Container(
+                padding: EdgeInsets.only(left: 20),
+                alignment: Alignment.centerLeft,
+                child: const Icon(Icons.delete, color: Colors.white),
+                color: Colors.red,
+              ),
+              child: PersonTile(
+                person: guest,
+              ),
+              onDismissed: (_) => setState(() => widget.guests.removeAt(index)),
             );
           },
         ),
