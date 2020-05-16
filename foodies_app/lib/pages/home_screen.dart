@@ -56,7 +56,13 @@ class _HomeScreenState extends State<HomeScreen>
       builder:
           (BuildContext context, AsyncSnapshot<List<EventBrief>> snapshot) {
         if (snapshot.hasData) {
-          return Events(events: snapshot.data);
+          return RefreshIndicator(
+            onRefresh: () async {
+              await tabData.refresh();
+              setState(() {});
+            },
+            child: Events(events: snapshot.data),
+          );
         }
 
         if (snapshot.hasError) {
