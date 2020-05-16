@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:latlong/latlong.dart';
 
 import '../models/attendee.dart' show Attendee;
+import '../pages/choose_location_screen.dart' show ChooseLocationScreen;
 import '../services/events.dart' show createEvent;
 import '../services/locale.dart' show formatTimestamp;
 import 'add_guests.dart' show AddGuests;
@@ -17,6 +19,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
   final List<Attendee> _guests = [];
   DateTime _dateTime = DateTime.now();
   int _budget = 2;
+  LatLng _location = LatLng(40.7678, -73.9647);
 
   Widget _budgetButton(int budget) {
     return ChoiceChip(
@@ -26,6 +29,20 @@ class _CreateEventFormState extends State<CreateEventForm> {
       label: Text('\$' * budget),
       onSelected: (bool _) => setState(() => _budget = budget),
     );
+  }
+
+  void _chooseLocation(BuildContext context) async {
+    var result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ChooseLocationScreen(
+          initialLocation: _location,
+        ),
+      ),
+    );
+    if (result != null) {
+      setState(() => _location = result);
+    }
   }
 
   void processNewEvent() async {
@@ -104,6 +121,32 @@ class _CreateEventFormState extends State<CreateEventForm> {
                 );
               },
               child: Text(formatTimestamp(_dateTime)),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: const Text(
+                  'Location',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            Text(
+              _location.latitude.toString() +
+                  ', ' +
+                  _location.longitude.toString(),
+            ),
+            RaisedButton(
+              child: Text(
+                'choose location',
+              ),
+              onPressed: () {
+                _chooseLocation(context);
+              },
             ),
             AddGuests(guests: _guests),
             RaisedButton(
