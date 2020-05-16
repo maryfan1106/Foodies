@@ -6,7 +6,8 @@ export async function getBiases(uid) {
   return db.all(SQL`SELECT    c.cid, c.description, pref.bias
                     FROM      categories  AS c
                     LEFT JOIN preferences AS pref  ON c.cid    = pref.cid
-                                                  AND pref.uid = ${uid}`);
+                                                  AND pref.uid = ${uid}
+                    ORDER BY  c.description`);
 }
 
 export async function setBias(uid, category, bias) {
