@@ -14,34 +14,45 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+class TabData {
+  final String name;
+  final Function getData;
+  final Tab tab;
+  Future<List<EventBrief>> future;
+
+  TabData({
+    @required this.name,
+    @required this.getData,
+    @required Widget icon,
+  })  : future = getData(),
+        tab = Tab(text: name, icon: icon);
+
+  Future<List<EventBrief>> refresh() => future = getData();
+}
+
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  final Map<String, Future<List<EventBrief>>> _events = {
-    'Attending': getEventsAttending(),
-    'Organizing': getEventsOrganizing(),
-  };
-
-  void _refreshOrganizing() {
-    _events['Organizing'] = getEventsOrganizing();
-    setState(() {});
-  }
-
-  static List<Tab> _tabs = [
-    Tab(
-      text: 'Attending',
+  final List<TabData> _events = [
+    TabData(
+      name: 'Attending',
+      getData: getEventsAttending,
       icon: Transform.rotate(
         angle: math.pi,
         child: const Icon(Icons.call_merge),
       ),
     ),
-    const Tab(text: 'Organizing', icon: Icon(Icons.call_split)),
+    TabData(
+      name: 'Organizing',
+      getData: getEventsOrganizing,
+      icon: const Icon(Icons.call_split),
+    ),
   ];
 
   TabController _tabController;
 
-  static Widget _makeTab(String text, Future<List<EventBrief>> future) {
+  Widget makeTab(TabData tabData) {
     return FutureBuilder(
-      future: future,
+      future: tabData.future,
       builder:
           (BuildContext context, AsyncSnapshot<List<EventBrief>> snapshot) {
         if (snapshot.hasData) {
@@ -98,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen>
         ],
         bottom: TabBar(
           controller: _tabController,
-          tabs: _tabs,
+          tabs: _events.map((e) => e.tab).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -107,16 +118,13 @@ class _HomeScreenState extends State<HomeScreen>
         onPressed: () async {
           final needUpdate = await Navigator.pushNamed(context, '/create');
           if (needUpdate ?? false) {
-            _refreshOrganizing();
+            _events.firstWhere((e) => e.name == 'Organizing').refresh();
           }
         },
       ),
       body: TabBarView(
         controller: _tabController,
-        children: _tabs.map((tab) {
-          String label = tab.text;
-          return _makeTab(label, _events[label]);
-        }).toList(),
+        children: _events.map((e) => makeTab(e)).toList(),
       ),
     );
   }
