@@ -13,6 +13,7 @@ dependencies:
   flutter_map: any
   google_fonts: any
   http: any
+  intl: any
   shared_preferences: any
 
 dev_dependencies:
