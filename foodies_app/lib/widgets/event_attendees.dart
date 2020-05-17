@@ -12,13 +12,15 @@ class EventAttendees extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: attendees.length,
-      itemBuilder: (BuildContext context, int index) {
-        final Attendee attendee = attendees[index];
-        return PersonTile(person: attendee);
-      },
+    return SizedBox(
+      height: 400,
+      child: ListView.builder(
+        itemCount: attendees.length,
+        itemBuilder: (BuildContext context, int index) {
+          final Attendee attendee = attendees[index];
+          return PersonTile(person: attendee);
+        },
+      ),
     );
   }
 }

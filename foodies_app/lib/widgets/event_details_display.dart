@@ -58,29 +58,31 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
   Widget build(BuildContext context) {
     Attendee _host = widget.details.host;
 
-    return Column(
-      children: <Widget>[
-        Card(
-          child: ListTile(
-            title: Center(
-              child: Column(
-                children: <Widget>[
-                  const Text('Hosted by:'),
-                  PersonTile(person: _host)
-                ],
+    return SingleChildScrollView(
+          child: Column(
+        children: <Widget>[
+          Card(
+            child: ListTile(
+              title: Center(
+                child: Column(
+                  children: <Widget>[
+                    const Text('Hosted by:'),
+                    PersonTile(person: _host)
+                  ],
+                ),
+              ),
+              subtitle: Center(
+                child: Text(formatTimestamp(widget.details.timestamp)),
               ),
             ),
-            subtitle: Center(
-              child: Text(formatTimestamp(widget.details.timestamp)),
-            ),
           ),
-        ),
-        EventAttendees(attendees: widget.details.guests),
-        Container(
-          height: 90.0,
-          child: Center(child: _voteStatus()),
-        ),
-      ],
+          EventAttendees(attendees: widget.details.guests),
+          Container(
+            height: 90.0,
+            child: Center(child: _voteStatus()),
+          ),
+        ],
+      ),
     );
   }
 }
