@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:latlong/latlong.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import '../models/attendee.dart' show Attendee;
 import '../pages/choose_location_screen.dart' show ChooseLocationScreen;
 import '../services/events.dart' show createEvent;
-import '../services/locale.dart' show formatTimestamp;
 import 'add_guests.dart' show AddGuests;
 
 class CreateEventForm extends StatefulWidget {
@@ -31,6 +31,26 @@ class _CreateEventFormState extends State<CreateEventForm> {
     );
   }
 
+  Widget _sectionLabel(String section) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 20,
+          top: 20,
+          right: 20,
+        ),
+        child: Text(
+          section,
+          style: TextStyle(
+            color: Colors.blueGrey,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+
   void _chooseLocation(BuildContext context) async {
     var result = await Navigator.push(
       context,
@@ -41,7 +61,9 @@ class _CreateEventFormState extends State<CreateEventForm> {
       ),
     );
     if (result != null) {
-      setState(() => _location = result);
+      setState(() => {
+            _location = result,
+          });
     }
   }
 
@@ -72,86 +94,98 @@ class _CreateEventFormState extends State<CreateEventForm> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Event Name',
-                contentPadding: EdgeInsets.all(20.0),
-              ),
-              controller: _nameController,
-              validator: (value) {
-                return value.isEmpty ? 'Please enter an event name' : null;
-              },
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Price Range',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
+            _sectionLabel("Event Name"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.edit),
+                  border: InputBorder.none,
                 ),
               ),
             ),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+            ),
+            _sectionLabel("Price Range"),
             ButtonBar(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, _budgetButton).skip(1).toList(),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Date and Time',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+            ),
+            _sectionLabel("Date and Time"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: DateTimePickerFormField(
+                inputType: InputType.both,
+                format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+                editable: false,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(Icons.event),
                 ),
+                onChanged: (dateTime) {
+                  setState(() => _dateTime = dateTime);
+                },
               ),
             ),
-            FlatButton(
-              onPressed: () {
-                DatePicker.showDateTimePicker(
-                  context,
-                  showTitleActions: true,
-                  onConfirm: (date) => setState(() => _dateTime = date),
-                );
-              },
-              child: Text(formatTimestamp(_dateTime)),
+            Divider(
+              indent: 20,
+              endIndent: 20,
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Location',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              _location.latitude.toString() +
-                  ', ' +
-                  _location.longitude.toString(),
-            ),
-            RaisedButton(
-              child: Text(
-                'choose location',
-              ),
-              onPressed: () {
+            _sectionLabel("Location"),
+            GestureDetector(
+              onTap: () {
                 _chooseLocation(context);
               },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 16.0, horizontal: 25.0),
+                child: Row(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.edit_location,
+                      color: Colors.grey,
+                    ),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "Near \t" +
+                              _location.latitude.toStringAsFixed(4) +
+                              ', ' +
+                              _location.longitude.toStringAsFixed(4),
+                              style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+            ),
+            _sectionLabel("Attendees"),
             AddGuests(guests: _guests),
+            Divider(
+              indent: 20,
+              endIndent: 20,
+            ),
             RaisedButton(
               color: Theme.of(context).accentColor,
-              child: const Text('Create Event'),
+              child: const Text(
+                'Create Event',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: processNewEvent,
             )
           ],
