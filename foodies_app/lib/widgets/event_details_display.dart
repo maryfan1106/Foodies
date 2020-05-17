@@ -36,6 +36,7 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
                   context,
                   MaterialPageRoute(
                     builder: (_) => RestaurantVotingScreen(
+                      canVote: true,
                       eid: widget.details.eid,
                       restaurants: widget.details.restaurants,
                     ),
@@ -59,7 +60,7 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
     Attendee _host = widget.details.host;
 
     return SingleChildScrollView(
-          child: Column(
+      child: Column(
         children: <Widget>[
           Card(
             child: ListTile(
@@ -79,7 +80,25 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
           EventAttendees(attendees: widget.details.guests),
           Container(
             height: 90.0,
-            child: Center(child: _voteStatus()),
+            child: Center(
+              child: widget.details.canVote
+                  ? _voteStatus()
+                  : RaisedButton(
+                      child: const Text('See Results'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => RestaurantVotingScreen(
+                              canVote: false,
+                              eid: widget.details.eid,
+                              restaurants: widget.details.restaurants,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
           ),
         ],
       ),

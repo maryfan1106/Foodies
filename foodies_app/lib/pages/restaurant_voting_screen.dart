@@ -5,10 +5,12 @@ import '../services/votes.dart' show voteForRestaurant;
 import '../widgets/restaurant_card.dart' show RestaurantCard;
 
 class RestaurantVotingScreen extends StatefulWidget {
+  final bool canVote;
   final int eid;
   final List<Restaurant> restaurants;
 
   const RestaurantVotingScreen({
+    @required this.canVote,
     @required this.eid,
     @required this.restaurants,
   });

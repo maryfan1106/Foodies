@@ -8,6 +8,7 @@ class EventDetail {
   final String name;
   final DateTime timestamp;
   final int budget;
+  final bool canVote;
   final Attendee host;
   final List<Attendee> guests;
   final List<Restaurant> restaurants;
@@ -17,6 +18,7 @@ class EventDetail {
     @required this.name,
     @required this.timestamp,
     @required this.budget,
+    @required this.canVote,
     @required this.host,
     @required this.guests,
     @required this.restaurants,
@@ -34,6 +36,7 @@ class EventDetail {
       name: parsedJson['name'],
       timestamp: DateTime.parse(parsedJson['timestamp']),
       budget: parsedJson['budget'],
+      canVote: parsedJson['canVote'] == 1 ? true : false,
       host: attending.singleWhere((i) => i.role == AttendeeRole.host),
       guests: attending.where((i) => i.role == AttendeeRole.guest).toList(),
       restaurants: restaurantList,
