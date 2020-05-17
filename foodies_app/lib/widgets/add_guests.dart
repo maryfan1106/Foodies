@@ -17,12 +17,12 @@ class AddGuests extends StatefulWidget {
 }
 
 class AddGuestsState extends State<AddGuests> {
+  String _error = '';
   final _emailField = TextField(
     controller: TextEditingController(),
-    obscureText: false,
-    decoration: const InputDecoration(
-      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      hintText: 'Attendee Email',
+    decoration: InputDecoration(
+      icon: Icon(Icons.person_add),
+      border: InputBorder.none,
     ),
   );
 
@@ -37,17 +37,32 @@ class AddGuestsState extends State<AddGuests> {
   @override
   Widget build(BuildContext context) {
     final addButton = RaisedButton(
-      child: const Text('Add Attendee'),
+      child: const Text('Invite'),
       onPressed: () async {
-        Attendee result = await getUser(_emailField.controller.text);
-        _addNewGuest(result);
+        try {
+          Attendee result = await getUser(_emailField.controller.text);
+          setState(() => _error = '');
+          _addNewGuest(result);
+        } catch (e) {
+          setState(() => _error = 'No user with that email exists');
+        }
         _emailField.controller.clear();
       },
     );
 
     return Column(
       children: <Widget>[
+        Text(
+          _error,
+          style: TextStyle(color: Colors.red, fontSize: 14.0),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: _emailField,
+        ),
+        addButton,
         ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: widget.guests.length,
           itemBuilder: (context, index) {
@@ -68,10 +83,6 @@ class AddGuestsState extends State<AddGuests> {
             );
           },
         ),
-        const SizedBox(height: 15.0),
-        _emailField,
-        const SizedBox(height: 25.0),
-        addButton,
       ],
     );
   }
