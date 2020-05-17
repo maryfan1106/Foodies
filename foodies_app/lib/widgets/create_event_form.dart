@@ -14,6 +14,7 @@ class CreateEventForm extends StatefulWidget {
 }
 
 class _CreateEventFormState extends State<CreateEventForm> {
+  static const Divider divider = Divider(indent: 20, endIndent: 20);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final List<Attendee> _guests = [];
@@ -58,6 +59,26 @@ class _CreateEventFormState extends State<CreateEventForm> {
     );
   }
 
+  Widget _sectionLabel(String section) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 20,
+          top: 20,
+          right: 20,
+        ),
+        child: Text(
+          section,
+          style: TextStyle(
+            color: Colors.blueGrey,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+
   void _chooseLocation(BuildContext context) async {
     var result = await Navigator.push(
       context,
@@ -86,8 +107,14 @@ class _CreateEventFormState extends State<CreateEventForm> {
     }
   }
 
+  get formattedLatLong {
+    final double lat = _location.latitude;
+    final double long = _location.longitude;
+    return 'Near \t ${lat.toStringAsFixed(4)}, ${long.toStringAsFixed(4)}';
+  }
+
   @override
-  dispose() {
+  void dispose() {
     super.dispose();
     _nameController.dispose();
   }
@@ -99,80 +126,72 @@ class _CreateEventFormState extends State<CreateEventForm> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Event Name',
-                contentPadding: EdgeInsets.all(20.0),
-              ),
-              controller: _nameController,
-              validator: (value) {
-                return value.isEmpty ? 'Please enter an event name' : null;
-              },
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Price Range',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
+            _sectionLabel("Event Name"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: TextField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.edit),
+                  border: InputBorder.none,
                 ),
               ),
             ),
+            divider,
+            _sectionLabel("Price Range"),
             ButtonBar(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, _budgetButton).skip(1).toList(),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Date and Time',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
-                ),
+            divider,
+            _sectionLabel("Date and Time"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: FlatButton(
+                onPressed: () => showDatePicker(context),
+                child: Text(formatTimestamp(_dateTime)),
               ),
             ),
-            FlatButton(
-              onPressed: () => showDatePicker(context),
-              child: Text(formatTimestamp(_dateTime)),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  'Location',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              _location.latitude.toString() +
-                  ', ' +
-                  _location.longitude.toString(),
-            ),
-            RaisedButton(
-              child: Text(
-                'choose location',
-              ),
-              onPressed: () {
+            divider,
+            _sectionLabel("Location"),
+            GestureDetector(
+              onTap: () {
                 _chooseLocation(context);
               },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 16.0, horizontal: 25.0),
+                child: Row(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.edit_location,
+                      color: Colors.grey,
+                    ),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          formattedLatLong,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            divider,
+            _sectionLabel("Attendees"),
             AddGuests(guests: _guests),
+            divider,
             RaisedButton(
               color: Theme.of(context).accentColor,
-              child: const Text('Create Event'),
+              child: const Text(
+                'Create Event',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: processNewEvent,
             )
           ],
