@@ -99,8 +99,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
     }
 
     String _name = _nameController.text;
-    if (await createEvent(_name, _budget, _guests)) {
-      print("successfully created event");
+    if (await createEvent(_name, _dateTime, _budget, _guests)) {
+      print(_dateTime);
       Navigator.pop(context, true);
     } else {
       print("failed to create event");
@@ -193,7 +193,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: processNewEvent,
-            )
+            ),
+            const SizedBox(height: 25.0),
           ],
         ),
       ),
