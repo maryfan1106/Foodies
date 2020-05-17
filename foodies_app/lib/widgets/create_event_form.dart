@@ -73,8 +73,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
     }
 
     String _name = _nameController.text;
-    if (await createEvent(_name, _budget, _guests)) {
-      print("successfully created event");
+    if (await createEvent(_name, _dateTime,_budget, _guests)) {
+      print(_dateTime);
       Navigator.pop(context, true);
     } else {
       print("failed to create event");
@@ -99,8 +99,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: TextField(
                 controller: _nameController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.edit),
+                decoration: const InputDecoration(
+                  icon: const Icon(Icons.edit),
                   border: InputBorder.none,
                 ),
               ),
@@ -114,7 +114,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, _budgetButton).skip(1).toList(),
             ),
-            Divider(
+            const Divider(
               indent: 20,
               endIndent: 20,
             ),
@@ -125,16 +125,16 @@ class _CreateEventFormState extends State<CreateEventForm> {
                 inputType: InputType.both,
                 format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
                 editable: false,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
-                  icon: Icon(Icons.event),
+                  icon: const Icon(Icons.event),
                 ),
                 onChanged: (dateTime) {
                   setState(() => _dateTime = dateTime);
                 },
               ),
             ),
-            Divider(
+            const Divider(
               indent: 20,
               endIndent: 20,
             ),
@@ -170,13 +170,13 @@ class _CreateEventFormState extends State<CreateEventForm> {
                 ),
               ),
             ),
-            Divider(
+            const Divider(
               indent: 20,
               endIndent: 20,
             ),
             _sectionLabel("Attendees"),
             AddGuests(guests: _guests),
-            Divider(
+            const Divider(
               indent: 20,
               endIndent: 20,
             ),
@@ -187,7 +187,8 @@ class _CreateEventFormState extends State<CreateEventForm> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: processNewEvent,
-            )
+            ),
+            const SizedBox(height: 25.0),
           ],
         ),
       ),

@@ -37,11 +37,11 @@ Future<EventDetail> getEventDetails(int eid) async {
   throw Exception('placeholder');
 }
 
-Future<bool> createEvent(String name, int budget, List<Attendee> guests) async {
+Future<bool> createEvent(String name, DateTime timestamp, int budget, List<Attendee> guests) async {
   List<String> emails = guests.map((guest) => guest.email).toList();
   Map<String, dynamic> data = {
     "name": name,
-    "timestamp": DateTime.now().toIso8601String(),
+    "timestamp": timestamp.toIso8601String(),
     "budget": budget,
     "guests": emails,
   };
