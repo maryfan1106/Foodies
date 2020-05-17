@@ -75,7 +75,9 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
             ),
           ),
         ),
-        EventAttendees(attendees: widget.details.guests),
+        Expanded(
+          child: EventAttendees(attendees: widget.details.guests),
+        ),
         Container(
           height: 90.0,
           child: Center(child: _voteStatus()),
