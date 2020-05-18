@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:latlong/latlong.dart';
-import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:latlong/latlong.dart';
 
 import '../models/attendee.dart' show Attendee;
 import '../pages/choose_location_screen.dart' show ChooseLocationScreen;
@@ -73,7 +73,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
     }
 
     String _name = _nameController.text;
-    if (await createEvent(_name, _dateTime,_budget, _guests)) {
+    if (await createEvent(_name, _dateTime, _budget, _guests)) {
       print(_dateTime);
       Navigator.pop(context, true);
     } else {
@@ -160,9 +160,9 @@ class _CreateEventFormState extends State<CreateEventForm> {
                               _location.latitude.toStringAsFixed(4) +
                               ', ' +
                               _location.longitude.toStringAsFixed(4),
-                              style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
                         ),
                       ),
                     ),
@@ -180,14 +180,32 @@ class _CreateEventFormState extends State<CreateEventForm> {
               indent: 20,
               endIndent: 20,
             ),
-            RaisedButton(
-              color: Theme.of(context).accentColor,
-              child: const Text(
+            ActionChip(
+              label: const Text(
                 'Create Event',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
               ),
               onPressed: processNewEvent,
+              backgroundColor: Theme.of(context).primaryColor,
+              shadowColor: Colors.yellow,
             ),
+//            RaisedButton(
+//              shape: RoundedRectangleBorder(
+//                borderRadius: BorderRadius.circular(18.0),
+//                //side: BorderSide(color: Theme.of(context).accentColor),
+//              ),
+//              color: Theme.of(context).primaryColor,
+//              child: const Text(
+//                'Create Event',
+//                style: TextStyle(
+//                  color: Colors.white,
+//                ),
+//              ),
+//              onPressed: processNewEvent,
+//            ),
             const SizedBox(height: 25.0),
           ],
         ),

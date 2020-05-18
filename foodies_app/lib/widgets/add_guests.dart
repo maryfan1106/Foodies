@@ -36,8 +36,8 @@ class AddGuestsState extends State<AddGuests> {
 
   @override
   Widget build(BuildContext context) {
-    final addButton = RaisedButton(
-      child: const Text('Invite'),
+    final addButton = ActionChip(
+      label: const Text('Invite'),
       onPressed: () async {
         try {
           Attendee result = await getUser(_emailField.controller.text);
@@ -57,10 +57,12 @@ class AddGuestsState extends State<AddGuests> {
           style: TextStyle(color: Colors.red, fontSize: 14.0),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: _emailField,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: ListTile(
+            title: _emailField,
+            trailing: addButton,
+          ),
         ),
-        addButton,
         ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
