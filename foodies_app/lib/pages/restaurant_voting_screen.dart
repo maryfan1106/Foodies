@@ -24,40 +24,72 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
 
   void _setVote(Restaurant restaurant) => setState(() => _vote = restaurant);
 
+  Widget showResults = Column();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recommended Restaurants'),
-      ),
-      body: Column(
-        children: <Widget>[
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: widget.restaurants.length,
-            itemBuilder: (BuildContext context, int index) {
-              final Restaurant restaurant = widget.restaurants[index];
-              return RestaurantCard(
-                restaurant: restaurant,
-                selected: restaurant == _vote,
-                setVote: _setVote,
-              );
-            },
-          ),
-          Container(
-            height: 90.0,
-            child: Center(
-              child: RaisedButton(
-                child: const Text('Vote'),
-                onPressed: () async {
-                  await voteForRestaurant(widget.eid, _vote.camis);
-                  Navigator.pop(context);
-                },
-              ),
+    Widget showResults = ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: widget.restaurants.length,
+      itemBuilder: (BuildContext context, int index) {
+        final Restaurant restaurant = widget.restaurants[index];
+        return Card(
+          color: index == 0 ? Theme.of(context).accentColor : null,
+          child: ListTile(
+            leading: Chip(
+              label: Text(restaurant.votes.toString() + ' votes'),
             ),
+            title: Text(restaurant.name),
+            subtitle: index == 0
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(restaurant.description),
+                      Text(restaurant.address),
+                      Text(restaurant.phone.toString()),
+                    ],
+                  )
+                : Text(restaurant.description),
           ),
-        ],
-      ),
+        );
+      },
     );
+
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Recommended Restaurants'),
+        ),
+        body: widget.canVote
+            ? Column(
+                children: <Widget>[
+                  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: widget.restaurants.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Restaurant restaurant = widget.restaurants[index];
+                      return RestaurantCard(
+                        restaurant: restaurant,
+                        selected: restaurant == _vote,
+                        setVote: _setVote,
+                      );
+                    },
+                  ),
+                  Container(
+                    height: 90.0,
+                    child: Center(
+                      child: RaisedButton(
+                        child: const Text('Vote'),
+                        onPressed: () async {
+                          await voteForRestaurant(widget.eid, _vote.camis);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : showResults);
   }
 }
