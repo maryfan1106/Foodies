@@ -79,12 +79,19 @@ class _RestaurantVotingScreen extends State<RestaurantVotingScreen> {
                   Container(
                     height: 90.0,
                     child: Center(
-                      child: RaisedButton(
-                        child: const Text('Vote'),
+                      child: ActionChip(
+                        label: const Text(
+                          'Vote',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                        ),
                         onPressed: () async {
                           await voteForRestaurant(widget.eid, _vote.camis);
                           Navigator.pop(context);
                         },
+                        backgroundColor: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),

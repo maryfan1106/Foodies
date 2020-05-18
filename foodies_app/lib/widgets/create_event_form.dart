@@ -190,22 +190,7 @@ class _CreateEventFormState extends State<CreateEventForm> {
               ),
               onPressed: processNewEvent,
               backgroundColor: Theme.of(context).primaryColor,
-              shadowColor: Colors.yellow,
             ),
-//            RaisedButton(
-//              shape: RoundedRectangleBorder(
-//                borderRadius: BorderRadius.circular(18.0),
-//                //side: BorderSide(color: Theme.of(context).accentColor),
-//              ),
-//              color: Theme.of(context).primaryColor,
-//              child: const Text(
-//                'Create Event',
-//                style: TextStyle(
-//                  color: Colors.white,
-//                ),
-//              ),
-//              onPressed: processNewEvent,
-//            ),
             const SizedBox(height: 25.0),
           ],
         ),

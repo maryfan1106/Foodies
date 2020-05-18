@@ -27,10 +27,21 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
 
         if (snapshot.hasData) {
           if (snapshot.data) {
-            body = const Text('Waiting for Result');
+            body = Text('Waiting for Result . . .',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Theme.of(context).primaryColor,
+                ));
           } else {
-            body = RaisedButton(
-              child: const Text('Vote for Restaurant'),
+            body = ActionChip(
+              backgroundColor: Theme.of(context).primaryColor,
+              label: const Text(
+                'Vote for Restaurant',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+              ),
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -84,8 +95,15 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
             child: Center(
               child: widget.details.canVote
                   ? _voteStatus()
-                  : RaisedButton(
-                      child: const Text('See Results'),
+                  : ActionChip(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      label: const Text(
+                        'See Results',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
