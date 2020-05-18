@@ -60,6 +60,7 @@ class _EventDetailsDisplayState extends State<EventDetailsDisplay> {
     Attendee _host = widget.details.host;
 
     return SingleChildScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
       child: Column(
         children: <Widget>[
           Card(

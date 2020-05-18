@@ -25,7 +25,10 @@ class _EventScreenState extends State<EventScreen> {
       builder: (BuildContext context, AsyncSnapshot<EventDetail> snapshot) {
         Widget body;
         if (snapshot.hasData) {
-          body = EventDetailsDisplay(details: snapshot.data);
+          body = RefreshIndicator(
+            onRefresh: () async => setState(() {}),
+            child: EventDetailsDisplay(details: snapshot.data),
+          );
         } else if (snapshot.hasError) {
           body = Text(snapshot.error.toString(),
               style: const TextStyle(color: Colors.red));
